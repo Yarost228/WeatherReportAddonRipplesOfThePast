@@ -1,0 +1,13 @@
+{
+  "entity.rotp_wr.weather_report": "Weather Report",
+  "stand.rotp_wr.weather_report": "Weather Report",
+  "action.rotp_wr.weather_report_punch": "Punch",
+  "action.rotp_wr.weather_report_heavy_punch": "Heavy Punch",
+  "action.rotp_wr.weather_report_barrage": "Barrage",
+  "action.rotp_wr.weather_report_lightning": "Lightning Strike",
+  "action.rotp_wr.weather_report_wind": "Wind Blow",
+  "action.rotp_wr.weather_report_cold_wind": "Cold Wind Blow",
+  "action.rotp_wr.weather_report_change_weather": "Change Weather",
+  "action.rotp_wr.weather_report_block": "Block",
+  "rotp_wr.subtitle.weather_report_name": "\"Weather Report\""
+}

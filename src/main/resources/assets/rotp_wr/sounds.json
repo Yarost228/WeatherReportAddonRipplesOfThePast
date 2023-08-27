@@ -1,0 +1,22 @@
+{
+  "weather_report": {
+    "subtitle": "rotp_wr.subtitle.weather_report.name",
+    "sounds": [ "rotp_wr:stand_user/weather_report" ]
+  },
+  "weather_report_wind_sound": {
+    "subtitle": "rotp_wr.subtitle.weather_report_wind_sound",
+    "sounds": [ "rotp_wr:stand/weather_report_wind_sound"]
+  },
+  "weather_report_cold_wind_sound": {
+    "subtitle": "rotp_wr.subtitle.weather_report_cold_wind_sound",
+    "sounds": [ "rotp_wr:stand/weather_report_cold_wind_sound"]
+  },
+  "weather_report_lightning_sound": {
+    "subtitle": "rotp_wr.subtitle.weather_report_lightning_sound",
+    "sounds": [ "rotp_wr:stand/weather_report_lightning_sound"]
+  },
+  "weather_report_change_weather_sound": {
+    "subtitle": "rotp_wr.subtitle.weather_report_change_weather_sound",
+    "sounds": [ "rotp_wr:stand/weather_report_change_weather_sound"]
+  }
+}
