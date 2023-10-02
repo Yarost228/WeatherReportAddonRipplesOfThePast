@@ -16,8 +16,10 @@ import com.github.standobyte.jojo.power.impl.stand.stats.StandStats;
 import com.github.standobyte.jojo.power.impl.stand.type.EntityStandType;
 import com.github.standobyte.jojo.power.impl.stand.type.StandType;
 import com.hk47bot.rotp_wr.RotpWeatherReportAddon;
+import com.hk47bot.rotp_wr.action.stand.WeatherReportAerodynamicFrictionPunch;
 import com.hk47bot.rotp_wr.action.stand.WeatherReportChangeWeather;
 import com.hk47bot.rotp_wr.action.stand.WeatherReportColdWind;
+import com.hk47bot.rotp_wr.action.stand.WeatherReportFuguRain;
 import com.hk47bot.rotp_wr.action.stand.WeatherReportLightning;
 import com.hk47bot.rotp_wr.action.stand.WeatherReportWind;
 import com.hk47bot.rotp_wr.entity.stand.stands.WeatherReportEntity;
@@ -41,8 +43,13 @@ public class InitStands {
     public static final RegistryObject<StandEntityAction> WEATHER_REPORT_BARRAGE = ACTIONS.register("weather_report_barrage", 
             () -> new StandEntityMeleeBarrage(new StandEntityMeleeBarrage.Builder()));
     
+    public static final RegistryObject<StandEntityHeavyAttack> WEATHER_REPORT_FINISHER = ACTIONS.register("weather_report_finisher", 
+            () -> new WeatherReportAerodynamicFrictionPunch(new StandEntityHeavyAttack.Builder()
+                    .partsRequired(StandPart.ARMS)));
+
     public static final RegistryObject<StandEntityHeavyAttack> WEATHER_REPORT_HEAVY_PUNCH = ACTIONS.register("weather_report_heavy_punch", 
-            () -> new StandEntityHeavyAttack(new StandEntityHeavyAttack.Builder().shiftVariationOf(WEATHER_REPORT_PUNCH)
+            () -> new StandEntityHeavyAttack(new StandEntityHeavyAttack.Builder().shiftVariationOf(WEATHER_REPORT_PUNCH).shiftVariationOf(WEATHER_REPORT_BARRAGE)
+                    .setFinisherVariation(WEATHER_REPORT_FINISHER)
                     .partsRequired(StandPart.ARMS)));
 
         public static final RegistryObject<StandEntityAction> WEATHER_REPORT_WIND = ACTIONS.register("weather_report_wind", 
@@ -66,12 +73,18 @@ public class InitStands {
             .partsRequired(StandPart.MAIN_BODY)));
 
         public static final RegistryObject<WeatherReportChangeWeather> WEATHER_REPORT_CHANGE_WEATHER = ACTIONS.register("weather_report_change_weather", 
-            () -> new WeatherReportChangeWeather(new StandEntityAction.Builder().cooldown(240).staminaCostTick(75F).standSound(InitSounds.WEATHER_REPORT_CHANGE_WEATHER)
+            () -> new WeatherReportChangeWeather(new StandEntityAction.Builder().cooldown(240).staminaCostTick(75F).shout(InitSounds.WEATHER_REPORT_CHANGE_WEATHER)
             .holdToFire(30, false)
             .standPose(WeatherReportChangeWeather.WEATHER_CHANGE_POSE)
             .resolveLevelToUnlock(3)
             .partsRequired(StandPart.MAIN_BODY)));
-
+            
+        public static final RegistryObject<StandEntityAction> WEATHER_REPORT_FUGU_RAIN = ACTIONS.register("weather_report_fugu_rain", 
+            () -> new WeatherReportFuguRain(new StandEntityAction.Builder().cooldown(720).shiftVariationOf(WEATHER_REPORT_CHANGE_WEATHER)
+            .holdToFire(60, false)
+            .resolveLevelToUnlock(3)
+            .standPose(WeatherReportChangeWeather.WEATHER_CHANGE_POSE)
+            .partsRequired(StandPart.MAIN_BODY)));
     
     public static final RegistryObject<StandEntityAction> WEATHER_REPORT_BLOCK = ACTIONS.register("weather_report_block", 
             () -> new StandEntityBlock());
