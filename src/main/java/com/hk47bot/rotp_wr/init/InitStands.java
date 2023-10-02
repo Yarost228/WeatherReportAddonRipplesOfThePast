@@ -81,6 +81,7 @@ public class InitStands {
             
         public static final RegistryObject<StandEntityAction> WEATHER_REPORT_FUGU_RAIN = ACTIONS.register("weather_report_fugu_rain", 
             () -> new WeatherReportFuguRain(new StandEntityAction.Builder().cooldown(720).shiftVariationOf(WEATHER_REPORT_CHANGE_WEATHER)
+            .standSound(InitSounds.WEATHER_REPORT_PUFFERFISH_RAIN)
             .holdToFire(60, false)
             .resolveLevelToUnlock(3)
             .standPose(WeatherReportChangeWeather.WEATHER_CHANGE_POSE)
