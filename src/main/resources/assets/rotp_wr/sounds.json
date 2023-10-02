@@ -18,5 +18,9 @@
   "weather_report_change_weather_sound": {
     "subtitle": "rotp_wr.subtitle.weather_report_change_weather_sound",
     "sounds": [ "rotp_wr:stand/weather_report_change_weather_sound"]
+  },
+  "weather_report_fugu_rain_sound": {
+    "subtitle": "rotp_wr.subtitle.weather_report_fugu_rain_sound",
+    "sounds": [ "rotp_wr:stand/weather_report_fugu_rain_sound"]
   }
 }
