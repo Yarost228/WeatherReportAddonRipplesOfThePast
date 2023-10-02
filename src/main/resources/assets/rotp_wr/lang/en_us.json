@@ -13,5 +13,6 @@
   "action.rotp_wr.weather_report_fugu_rain": "Pufferfish Rain",
   "rotp_wr.subtitle.weather_report_name": "\"Weather Report\"",
   "jojo.message.action_condition.fugurain-warningrain": "Weather is too calm.",
-  "jojo.message.action_condition.fugurain-warningneedtoseesky": "Need some open space."
+  "jojo.message.action_condition.fugurain-warningneedtoseesky": "Need some open space.",
+  "jojo.message.action_condition.fugurain-warningotherdimension": "Can't manipulate the weather here..."
 }
