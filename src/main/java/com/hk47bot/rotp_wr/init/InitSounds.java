@@ -39,10 +39,11 @@ public class InitSounds {
 
     public static final RegistryObject<SoundEvent> WEATHER_REPORT_CHANGE_WEATHER = SOUNDS.register("weather_report_change_weather_sound", 
             () -> new SoundEvent(new ResourceLocation(RotpWeatherReportAddon.MOD_ID, "weather_report_change_weather_sound")));
-    
 
-    
-    static final OstSoundList WEATHER_REPORT_OST = new OstSoundList(new ResourceLocation(RotpWeatherReportAddon.MOD_ID, "stone_free_ost"), SOUNDS);
+         public static final RegistryObject<SoundEvent> WEATHER_REPORT_PUFFERFISH_RAIN = SOUNDS.register("weather_report_fuga_rain_sound", 
+            () -> new SoundEvent(new ResourceLocation(RotpWeatherReportAddon.MOD_ID, "weather_report_fuga_rain_sound")));   
+
+    static final OstSoundList WEATHER_REPORT_OST = new OstSoundList(new ResourceLocation(RotpWeatherReportAddon.MOD_ID, "weather_report_ost"), SOUNDS);
 
 
 }
