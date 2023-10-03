@@ -14,21 +14,21 @@ public class WeatherReportChangeWeather extends StandEntityAction {
 
     public WeatherReportChangeWeather(StandEntityAction.Builder builder) {
         super(builder);
-}
-    
-   @Override
-    
+    }
+
+    @Override
+
     public void standPerform(World world, StandEntity standEntity, IStandPower userPower, StandEntityTask task) {
         if (!world.isClientSide()) {
-            if (!world.isRaining()) {;
-            world.getLevelData().setRaining(true);
+            if (!world.isRaining()) {
+                world.getLevelData().setRaining(true);
             }
-            else {;
-            world.getLevelData().setRaining(false);
+            else {
+                world.getLevelData().setRaining(false);
             }
         }
     }
-    
-  
+
+
 
 }

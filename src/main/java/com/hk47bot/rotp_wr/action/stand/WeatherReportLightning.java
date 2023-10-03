@@ -20,15 +20,13 @@ public class WeatherReportLightning extends StandEntityAction {
     public WeatherReportLightning(StandEntityAction.Builder builder) {
         super(builder);
     }
-    
+
 
     @Override
-    
     public void standPerform(World world, StandEntity standEntity, IStandPower userPower, StandEntityTask task) {
         if (!world.isClientSide()) {
             RayTraceResult target = standEntity.aimWithStandOrUser(25, task.getTarget());
             Vector3d pos = target.getLocation();
-            ;
             if (pos != null) {
                 LightningBoltEntity lightningboltentity = EntityType.LIGHTNING_BOLT.create(world);
                 lightningboltentity.moveTo(pos);
@@ -36,20 +34,20 @@ public class WeatherReportLightning extends StandEntityAction {
                 world.addFreshEntity(lightningboltentity);
                 if (world.isRaining() && userPower.getResolveLevel() >= 3){
                     LightningBoltEntity lightningboltentity2 = EntityType.LIGHTNING_BOLT.create(world);
-                lightningboltentity2.moveTo(pos);
-                lightningboltentity2.setCause(userPower.getUser() instanceof ServerPlayerEntity ? (ServerPlayerEntity) userPower.getUser() : null);
-                world.addFreshEntity(lightningboltentity2);
+                    lightningboltentity2.moveTo(pos);
+                    lightningboltentity2.setCause(userPower.getUser() instanceof ServerPlayerEntity ? (ServerPlayerEntity) userPower.getUser() : null);
+                    world.addFreshEntity(lightningboltentity2);
                 }
                 if (world.isThundering() && userPower.getResolveLevel() >= 4){
                     LightningBoltEntity lightningboltentity3 = EntityType.LIGHTNING_BOLT.create(world);
-                lightningboltentity3.moveTo(pos);
-                lightningboltentity3.setCause(userPower.getUser() instanceof ServerPlayerEntity ? (ServerPlayerEntity) userPower.getUser() : null);
-                world.addFreshEntity(lightningboltentity3);
+                    lightningboltentity3.moveTo(pos);
+                    lightningboltentity3.setCause(userPower.getUser() instanceof ServerPlayerEntity ? (ServerPlayerEntity) userPower.getUser() : null);
+                    world.addFreshEntity(lightningboltentity3);
                 }
             }
         }
     }
-    
+
     @Override
     protected boolean standKeepsTarget(ActionTarget target) {
         return target.getType() == TargetType.ENTITY && target.getEntity() instanceof LivingEntity;
