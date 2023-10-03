@@ -13,15 +13,16 @@ import net.minecraftforge.fml.network.NetworkHooks;
 
 public class FugaSummonerEntity extends Entity {
 
-        private int livetime;
+    private int livetime;
 
-        public FugaSummonerEntity(World world) {
+    public FugaSummonerEntity(World world) {
         this(InitEntities.FUGU_SUMMONER.get(), world);
     }
 
     public FugaSummonerEntity(EntityType<?> entityType, World world) {
         super(entityType, world);
     };
+    
     @Override
     public void tick() {
         super.tick();
@@ -65,10 +66,13 @@ public class FugaSummonerEntity extends Entity {
     protected void defineSynchedData() {}
 
     @Override
-    protected void readAdditionalSaveData(CompoundNBT compound) {}
+    protected void readAdditionalSaveData(CompoundNBT compound) {
+        compound.putInt("Age", livetime);
+    }
 
-        @Override
+    @Override
     protected void addAdditionalSaveData(CompoundNBT compound) {
+        livetime = compound.getInt("Age");
     }
 
     @Override
