@@ -1,26 +1,29 @@
 package com.hk47bot.rotp_wr.client.render.entity.renderer;
 
-import com.github.standobyte.jojo.client.render.entity.renderer.SimpleEntityRenderer;
-import com.hk47bot.rotp_wr.RotpWeatherReportAddon;
-import com.hk47bot.rotp_wr.client.render.entity.model.FugaSummonerEntityModel;
 import com.hk47bot.rotp_wr.entity.fugurain.FugaSummonerEntity;
 import com.mojang.blaze3d.matrix.MatrixStack;
-import com.mojang.blaze3d.vertex.IVertexBuilder;
 
+import net.minecraft.client.renderer.IRenderTypeBuffer;
+import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
-import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.util.ResourceLocation;
 
-public class FugaSummonerEntityRenderer extends SimpleEntityRenderer<FugaSummonerEntity, FugaSummonerEntityModel> {
-    public static final ResourceLocation texture = new ResourceLocation(RotpWeatherReportAddon.MOD_ID, "textures/entity/fugarain.png");
+public class FugaSummonerEntityRenderer extends EntityRenderer<FugaSummonerEntity> {
 
     public FugaSummonerEntityRenderer(EntityRendererManager renderManager) {
-        super(renderManager, new FugaSummonerEntityModel(), texture);
+        super(renderManager);
     }
+    
+    // the entity itself doesn't need to be rendered, so we override the render method to empty
     @Override
-    protected void renderModel(FugaSummonerEntity entity, FugaSummonerEntityModel model, float partialTick, 
-            MatrixStack matrixStack, IVertexBuilder vertexBuilder, int packedLight) {
-        model.renderToBuffer(matrixStack, vertexBuilder, packedLight, OverlayTexture.NO_OVERLAY,  1.0F, 1.0F, 1.0F, 1.0F);
+    public void render(FugaSummonerEntity entity, float yRot, float partialTick, 
+            MatrixStack matrixStack, IRenderTypeBuffer vertexBuilder, int packedLight) {
+    }
+    
+    private static final ResourceLocation EMPTY = new ResourceLocation("empty");
+    @Override
+    public ResourceLocation getTextureLocation(FugaSummonerEntity p_110775_1_) {
+        return EMPTY;
     }
     
 }
