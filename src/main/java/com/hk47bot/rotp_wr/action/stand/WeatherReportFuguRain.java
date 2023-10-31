@@ -19,16 +19,16 @@ public class WeatherReportFuguRain extends StandEntityAction {
     public WeatherReportFuguRain(StandEntityAction.Builder builder) {
         super(builder);
     }
-    
+
     @Override
     protected ActionConditionResult checkSpecificConditions(LivingEntity user, IStandPower power, ActionTarget target) {
         BlockPos userPos = new BlockPos(user.getPosition(1));
         if (!user.level.canSeeSky(userPos)){
-                    return conditionMessage("fugurain-warningneedtoseesky");
-                }
+            return conditionMessage("fugurain-warningneedtoseesky");
+        }
         if (!user.level.getLevelData().isRaining()){
-                    return conditionMessage("fugurain-warningrain");
-                }
+            return conditionMessage("fugurain-warningrain");
+        }
         else {
             return super.checkSpecificConditions(user, power, target);
         }
@@ -43,12 +43,12 @@ public class WeatherReportFuguRain extends StandEntityAction {
             BlockPos standpos = new BlockPos(pos);
 
             if (pos != null) {
-                
+
                 if (world.getLevelData().isRaining() && userPower.getResolveLevel() >= 3 && world.canSeeSky(standpos)){
-                FugaSummonerEntity summoner = new FugaSummonerEntity(world);
-                summoner.moveTo(pos);
-                summoner.moveTo(summoner.getX(), summoner.getY()+45, summoner.getZ());
-                world.addFreshEntity(summoner);
+                    FugaSummonerEntity summoner = new FugaSummonerEntity(world);
+                    summoner.moveTo(pos);
+                    summoner.moveTo(summoner.getX(), summoner.getY()+45, summoner.getZ());
+                    world.addFreshEntity(summoner);
 
                 }
             }

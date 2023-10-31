@@ -37,11 +37,11 @@ public class WeatherReportColdWind extends StandEntityAction {
                         Entity effecttarget = entity;
                         if (effecttarget instanceof LivingEntity){
                             LivingEntity effectTarget = (LivingEntity) effecttarget;
-                        effectTarget.addEffect(new EffectInstance(ModStatusEffects.FREEZE.get(), 15, 0));
-                    }
-                };
+                            effectTarget.addEffect(new EffectInstance(ModStatusEffects.FREEZE.get(), 15, 0));
+                        }
+                    };
                 });
-                    
+
         if (world.isClientSide()) {
             GeneralUtil.doFractionTimes(() -> {
                 LivingEntity user = userPower.getUser();
