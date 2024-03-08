@@ -19,25 +19,28 @@ public class WeatherReportWind extends StandEntityAction {
         super(builder);
     }
     
-    private static final double RANGE = 24;
+
     @Override
     public void standTickPerform(World world, StandEntity standEntity, IStandPower userPower, StandEntityTask task) {
+        double RANGE = 24;
         Vector3d wrLookVec = standEntity.getLookAngle();
+        LivingEntity user = userPower.getUser();
         world.getEntities(standEntity, standEntity.getBoundingBox().inflate(RANGE, RANGE, RANGE), 
-                entity -> wrLookVec.dot(entity.position().subtract(standEntity.position()).normalize()) > 0.886 && entity.distanceToSqr(standEntity) > 0.5
-                && (/*standEntity.isManuallyControlled() || */!entity.is(standEntity.getUser()))).forEach(entity -> {
+                entity -> wrLookVec.dot(entity.position().subtract(standEntity.position()).normalize()) > 0.886 && entity.distanceToSqr(standEntity) > 0.5)
+                .forEach(entity -> {
                     if (entity.canUpdate()) {
                         double distance = entity.distanceTo(standEntity);
                         Vector3d pushVec = wrLookVec.normalize().scale(0.5 * standEntity.getStandEfficiency());
                         entity.setDeltaMovement(distance > 2 ? 
                                 entity.getDeltaMovement().add(pushVec.scale(1/distance*2))
                                 : pushVec.scale(Math.max(distance - 1, 0)));
+
                     }
                 });
         if (world.isClientSide()) {
+
             GeneralUtil.doFractionTimes(() -> {
-                LivingEntity user = userPower.getUser();
-                Vector3d userPos = user.position().add(
+                Vector3d userPos = standEntity.position().add(
                     (Math.random() - 0.5) * (user.getBbWidth() + 1.0), 
                     Math.random() * (user.getBbHeight() + 1.0), 
                     (Math.random() - 0.5) * (user.getBbWidth() + 1.0));
