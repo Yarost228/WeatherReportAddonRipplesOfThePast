@@ -208,7 +208,6 @@ public class WeatherReportModel extends HumanoidStandModel<WeatherReportEntity> 
 	public void prepareMobModel(WeatherReportEntity entity,  float walkAnimPos, float walkAnimSpeed, float partialTick) {
 		super.prepareMobModel(entity, walkAnimPos, walkAnimSpeed, partialTick);
 		if (cloud != null){
-			cloud.visible = !entity.isBarraging();
 			if (entity.isDeflecting()){
 				cloud1.yRot = -45;
 				cloud2.yRot = -165;
@@ -222,6 +221,8 @@ public class WeatherReportModel extends HumanoidStandModel<WeatherReportEntity> 
 				cloud3.yRot = entity.cloudRotation;
 				cloud4.yRot = -entity.cloudRotation;
 				cloudOnlyMode(false);
+				cloud.visible = !entity.isBarraging();
+
 			}
 		}
 	}
@@ -332,6 +333,5 @@ public class WeatherReportModel extends HumanoidStandModel<WeatherReportEntity> 
 		rightArm.visible = !a;
 		leftLeg.visible = !a;
 		rightLeg.visible = !a;
-		cloud.visible = true;
 	}
 }
