@@ -29,18 +29,20 @@ public class WeatherReportCloudShield extends StandEntityAction {
 
     @Override
     public void standTickPerform(World world, StandEntity standEntity, IStandPower userPower, StandEntityTask task) {
-        double RANGE = 2.5;
-            world.getEntities(standEntity, standEntity.getBoundingBox().inflate(RANGE, RANGE ,RANGE), entity -> (entity instanceof ProjectileEntity)).forEach(entity -> {
-                if (entity instanceof ProjectileEntity){
-                    ProjectileEntity projectile = (ProjectileEntity) entity;
-                    Vector3d projectilePos = projectile.getPosition(1);
-                    Vector3d randomOffset = new Vector3d((Math.random() - Math.random()) * 0.5, (Math.random() - Math.random()) * 0.5, (Math.random() - Math.random()) * 0.5);
-                    Vector3d lookVec = standEntity.getLookAngle().add(randomOffset);
-                    projectile.setDeltaMovement(lookVec);
-                    world.addParticle(ParticleTypes.CLOUD, projectilePos.x(), projectilePos.y(), projectilePos.z(), 0, 0, 0);
-                }
-            });
-        }
+            LivingEntity user = userPower.getUser ();
+            Random random = new Random ();
+            world.getEntitiesOfClass(ProjectileEntity.class, user.getBoundingBox().inflate(2.5),
+                    entity -> entity.isAlive()).forEach(projectile -> {
+                        Vector3d randomOffset = new Vector3d((random.nextDouble () - random.nextDouble () ) * 0.5, (random.nextDouble ()  - random.nextDouble () ) * 0.5, (random.nextDouble ()  - random.nextDouble () ) * 0.5);
+                        Vector3d lookVec = standEntity.getLookAngle().add(randomOffset);
+                        if (!world.isClientSide ()){
+                            projectile.setDeltaMovement(lookVec);
+                        }
+                        if (world.isClientSide ()){
+                            world.addParticle(ParticleTypes.CLOUD, projectile.getX (), projectile.getY (), projectile.getZ (), 0, 0, 0);
+                        }
+                    });
+    }
     @Override
     public void phaseTransition(World world, StandEntity standEntity, IStandPower standPower,
                                 @Nullable Phase from, @Nullable Phase to, StandEntityTask task, int nextPhaseTicks) {
