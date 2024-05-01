@@ -65,7 +65,7 @@ public class WeatherReportColdWind extends StandEntityAction {
                 world.addParticle(ParticleTypes.CLOUD, particlePos.x, particlePos.y, particlePos.z, -vecToStand.x,  -vecToStand.y, -vecToStand.z);
             }, 5);
         }
-     if (!world.isClientSide()){
+ if (!world.isClientSide()){
          RayTraceResult target = standEntity.aimWithStandOrUser(RANGE, task.getTarget());
          Vector3d pos = target.getLocation();
          BlockPos targetedBlockPos = new BlockPos(pos);
@@ -73,7 +73,7 @@ public class WeatherReportColdWind extends StandEntityAction {
              if (targetedBlockState.is(BlockTags.CAMPFIRES)){
                  world.setBlockAndUpdate(targetedBlockPos, targetedBlockState.setValue(CampfireBlock.LIT, false));
              }
-             if (targetedBlockState.is(Blocks.FIRE) || targetedBlockState.is(ModBlocks.MAGICIANS_RED_FIRE.get())){
+             else if (targetedBlockState.is(Blocks.FIRE) || targetedBlockState.is(ModBlocks.MAGICIANS_RED_FIRE.get())){
                 world.removeBlock(targetedBlockPos, false);
              }
          }
