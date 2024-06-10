@@ -1,7 +1,12 @@
 {
-  "weather_report": {
-    "subtitle": "rotp_wr.subtitle.weather_report.name",
-    "sounds": [ "rotp_wr:stand_user/weather_report" ]
+  "weather_report_summon": {
+    "sounds": [ "rotp_wr:stand/weather_report_summon" ]
+  },
+  "weather_report_unsummon": {
+    "sounds": [ "rotp_wr:stand/weather_report_unsummon" ]
+  },
+  "weather_report_cloud_shield": {
+    "sounds": [ "rotp_wr:stand/weather_report_cloud_shield" ]
   },
   "weather_report_wind_sound": {
     "subtitle": "rotp_wr.subtitle.weather_report_wind_sound",
@@ -9,14 +14,58 @@
   },
   "weather_report_cold_wind_sound": {
     "subtitle": "rotp_wr.subtitle.weather_report_cold_wind_sound",
-    "sounds": [ "rotp_wr:stand/weather_report_cold_wind_sound"]
+    "sounds": [ "rotp_wr:stand/weather_report_cold_wind"]
   },
-  "weather_report_lightning_sound": {
-    "subtitle": "rotp_wr.subtitle.weather_report_lightning_sound",
-    "sounds": [ "rotp_wr:stand/weather_report_lightning_sound"]
+  "weather_report_lightning_cast": {
+    "subtitle": "rotp_wr.subtitle.weather_report_lightning_charge",
+    "sounds": [ "rotp_wr:stand/weather_report_lightning_charge"]
   },
   "weather_report_change_weather_sound": {
     "subtitle": "rotp_wr.subtitle.weather_report_change_weather_sound",
-    "sounds": [ "rotp_wr:stand/weather_report_change_weather_sound"]
+    "sounds": [ "rotp_wr:stand/weather_report_change_weather", "rotp_wr:stand/weather_report_weather_change"]
+  },
+  "weather_report_fugu_rain_cast_sound": {
+    "subtitle": "rotp_wr.subtitle.weather_report_fugu_rain_cast",
+    "sounds": [ "rotp_wr:stand/weather_report_fugu_rain_cast"]
+  },
+  "weather_report_fugu_splash_sound": {
+    "sounds": ["rotp_wr:stand/weather_report_fugu_splash"]
+  },
+  "weather_report_swing_sound": {
+    "sounds": [ "rotp_wr:swing1", "rotp_wr:swing2", "rotp_wr:swing3", "rotp_wr:swing4", "rotp_wr:swing5"]
+  },
+  "weather_report_heavy_punch": {
+    "sounds": [ "rotp_wr:stand/weather_report_heavy_punch" ]
+  },
+  "weather_report_punch": {
+    "sounds": [ "rotp_wr:stand/weather_report_punch" ]
+  },
+  "weather_report_finisher": {
+    "sounds": [ "rotp_wr:stand/weather_report_finisher" ]
+  },
+
+
+
+  "weather_report": {
+    "subtitle": "rotp_wr.subtitle.weather_report.name",
+    "sounds": [ "rotp_wr:stand_user/weather_report", "rotp_wr:stand_user/weather_report_2" ]
+  },
+  "weather_report_user_retract": {
+    "sounds": [ "rotp_wr:stand_user/weather_report_retract", "rotp_wr:stand_user/weather_report_retract_2" ]
+  },
+  "weather_report_user_cloud_shield_cast": {
+    "sounds": [ "rotp_wr:stand_user/weather_report_cloud_shield_cast" ]
+  },
+  "weather_report_user_fugu_rain_sound": {
+    "sounds": [ "rotp_wr:stand_user/weather_report_fugu_rain_sound", "rotp_wr:stand_user/weather_report_fugu_rain_sound_2" ]
+  },
+  "weather_report_user_heavy_punch": {
+    "sounds": [ "rotp_wr:stand_user/weather_report_heavy_punch", "rotp_wr:stand_user/weather_report_heavy_punch_2" ]
+  },
+  "weather_report_user_light_punch": {
+    "sounds": [ "rotp_wr:stand_user/weather_report_light_punch", "rotp_wr:stand_user/weather_report_light_punch_2", "rotp_wr:stand_user/weather_report_light_punch_3", "rotp_wr:stand_user/weather_report_light_punch_4" ]
+  },
+  "weather_report_user_lightning_cast": {
+    "sounds": [ "rotp_wr:stand_user/weather_report_lightning_cast" ]
   }
 }
