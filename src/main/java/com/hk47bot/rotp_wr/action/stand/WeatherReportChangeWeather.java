@@ -16,18 +16,18 @@ public class WeatherReportChangeWeather extends StandEntityAction {
 
     public WeatherReportChangeWeather(StandEntityAction.Builder builder) {
         super(builder);
-}
-   @Override
-    
+    }
+
+    @Override
     public void standPerform(World world, StandEntity standEntity, IStandPower userPower, StandEntityTask task) {
         if (!world.isClientSide()) {
-            MinecraftServer source = LogicalSidedProvider.INSTANCE.get(LogicalSide.SERVER);
             if (!world.isRaining()) {
-            source.getCommands().performCommand(source.createCommandSourceStack(), "weather rain");
+                world.getLevelData().setRaining(true);
             }
             else {
-                source.getCommands().performCommand(source.createCommandSourceStack(), "weather clear");
+                world.getLevelData().setRaining(false);
             }
         }
     }
+
 }

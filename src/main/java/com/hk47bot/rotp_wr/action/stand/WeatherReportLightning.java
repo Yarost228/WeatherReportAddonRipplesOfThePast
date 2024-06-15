@@ -59,7 +59,6 @@ public class WeatherReportLightning extends StandEntityAction {
             }
         }
     }
-
     @Override
     protected boolean standKeepsTarget(ActionTarget target) {
         return target.getType() == TargetType.ENTITY && target.getEntity() instanceof LivingEntity;

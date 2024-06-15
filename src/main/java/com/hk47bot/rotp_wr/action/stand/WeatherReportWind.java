@@ -18,20 +18,20 @@ public class WeatherReportWind extends StandEntityAction {
     public WeatherReportWind(StandEntityAction.Builder builder) {
         super(builder);
     }
-    
+
 
     @Override
     public void standTickPerform(World world, StandEntity standEntity, IStandPower userPower, StandEntityTask task) {
         double RANGE = 24;
         Vector3d wrLookVec = standEntity.getLookAngle();
         LivingEntity user = userPower.getUser();
-        world.getEntities(standEntity, standEntity.getBoundingBox().inflate(RANGE, RANGE, RANGE), 
-                entity -> wrLookVec.dot(entity.position().subtract(standEntity.position()).normalize()) > 0.886 && entity.distanceToSqr(standEntity) > 0.5)
+        world.getEntities(standEntity, standEntity.getBoundingBox().inflate(RANGE, RANGE, RANGE),
+                        entity -> wrLookVec.dot(entity.position().subtract(standEntity.position()).normalize()) > 0.886 && entity.distanceToSqr(standEntity) > 0.5)
                 .forEach(entity -> {
                     if (entity.canUpdate()) {
                         double distance = entity.distanceTo(standEntity);
                         Vector3d pushVec = wrLookVec.normalize().scale(0.5 * standEntity.getStandEfficiency());
-                        entity.setDeltaMovement(distance > 2 ? 
+                        entity.setDeltaMovement(distance > 2 ?
                                 entity.getDeltaMovement().add(pushVec.scale(1/distance*2))
                                 : pushVec.scale(Math.max(distance - 1, 0)));
 
@@ -41,26 +41,26 @@ public class WeatherReportWind extends StandEntityAction {
 
             GeneralUtil.doFractionTimes(() -> {
                 Vector3d userPos = standEntity.position().add(
-                    (Math.random() - 0.5) * (user.getBbWidth() + 1.0), 
-                    Math.random() * (user.getBbHeight() + 1.0), 
-                    (Math.random() - 0.5) * (user.getBbWidth() + 1.0));
+                        (Math.random() - 0.5) * (user.getBbWidth() + 1.0),
+                        Math.random() * (user.getBbHeight() + 1.0),
+                        (Math.random() - 0.5) * (user.getBbWidth() + 1.0));
                 Vector3d particlePos = userPos.add(wrLookVec.scale(2)
-                .xRot((float) (-(Math.random() * 2 - 1) * Math.PI / 6))
-                .yRot((float) (-(Math.random() * 2 - 1) * Math.PI / 6)));
+                        .xRot((float) (-(Math.random() * 2 - 1) * Math.PI / 6))
+                        .yRot((float) (-(Math.random() * 2 - 1) * Math.PI / 6)));
                 Vector3d vecToStand = userPos.subtract(particlePos).normalize().scale(0.75);
                 world.addParticle(ModParticles.AIR_STREAM.get(), particlePos.x, particlePos.y, particlePos.z, -vecToStand.x,  -vecToStand.y, -vecToStand.z);
             }, 5);
         }
     }
 
-    
 
 
 
-                               
-                         
-                            
-                        
+
+
+
+
+
 
 
     @Override

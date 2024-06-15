@@ -155,7 +155,7 @@ public class InitStands {
                             .addOst(InitSounds.WEATHER_REPORT_OST)),
 
                     InitEntities.ENTITIES, 
-                    () -> new StandEntityType<>(WeatherReportEntity::new, 0.65F, 1.95F)
+                    () -> new StandEntityType<>(WeatherReportEntity::new, 0.7F, 2.1F)
                     .summonSound(InitSounds.WEATHER_REPORT_SUMMON)
                     .unsummonSound(InitSounds.WEATHER_REPORT_UNSUMMON))
             .withDefaultStandAttributes();

@@ -20,5 +20,4 @@ public class WeatherReportAerodynamicFrictionPunch extends StandEntityHeavyAttac
                 .addKnockback(0.5F + stand.getLastHeavyFinisherValue())
                 .disableBlocking((float) stand.getProximityRatio(target) - 0.25F);
     }
-
 }

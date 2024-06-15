@@ -9,12 +9,14 @@ import com.github.standobyte.jojo.entity.stand.StandPose;
 import com.github.standobyte.jojo.power.impl.stand.IStandPower;
 import com.github.standobyte.jojo.power.impl.stand.StandInstance;
 import com.hk47bot.rotp_wr.init.InitSounds;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
+import java.util.Random;
 
 public class WeatherReportCloudShield extends StandEntityAction {
     public WeatherReportCloudShield(StandEntityAction.Builder builder) {
@@ -26,13 +28,12 @@ public class WeatherReportCloudShield extends StandEntityAction {
                 .standOffsetFromUser(0, -0.4)
                 .partsRequired(StandInstance.StandPart.ARMS));
     }
-
     @Override
     public void standTickPerform(World world, StandEntity standEntity, IStandPower userPower, StandEntityTask task) {
             LivingEntity user = userPower.getUser ();
-            Random random = new Random ();
+            Random random = new Random();
             world.getEntitiesOfClass(ProjectileEntity.class, user.getBoundingBox().inflate(2.5),
-                    entity -> entity.isAlive()).forEach(projectile -> {
+                    entity -> entity != null && entity.isAlive()).forEach(projectile -> {
                         Vector3d randomOffset = new Vector3d((random.nextDouble () - random.nextDouble () ) * 0.5, (random.nextDouble ()  - random.nextDouble () ) * 0.5, (random.nextDouble ()  - random.nextDouble () ) * 0.5);
                         Vector3d lookVec = standEntity.getLookAngle().add(randomOffset);
                         if (!world.isClientSide ()){
@@ -56,4 +57,4 @@ public class WeatherReportCloudShield extends StandEntityAction {
             }
         }
     }
-    }
+}

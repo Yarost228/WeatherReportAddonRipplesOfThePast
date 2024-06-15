@@ -209,7 +209,7 @@ public class WeatherReportModel extends HumanoidStandModel<WeatherReportEntity> 
 		super.prepareMobModel(entity, walkAnimPos, walkAnimSpeed, partialTick);
 		if (cloud != null){
 			cloud.visible = !entity.isBarraging();
-			if (!entity.isArmsOnlyMode ()){
+			if (!entity.isArmsOnlyMode()){
 				if (entity.isDeflecting()){
 					cloud1.yRot = -45;
 					cloud2.yRot = -165;
@@ -229,7 +229,6 @@ public class WeatherReportModel extends HumanoidStandModel<WeatherReportEntity> 
 				cloud.visible = false;
 			}
 		}
-
 	}
 
 	@Override
