@@ -118,6 +118,8 @@ public class InitStands {
     public static final RegistryObject<StandEntityAction> WEATHER_REPORT_BLOCK = ACTIONS.register("weather_report_block",
             StandEntityBlock::new);
 
+    public static final RegistryObject<StandAction> WEATHER_REPORT_WEATHER_MENU = ACTIONS.register("weather_report_weather_menu",
+            () -> new WeatherReportWeatherTypeMenu(new StandAction.Builder()));
 
 
 
@@ -138,7 +140,8 @@ public class InitStands {
                                     WEATHER_REPORT_BLOCK.get(),
                                     WEATHER_REPORT_CLOUD_SHIELD.get(),
                                     WEATHER_REPORT_WIND.get(),
-                                    WEATHER_REPORT_CHANGE_WEATHER.get()
+                                    WEATHER_REPORT_CHANGE_WEATHER.get(),
+                                    WEATHER_REPORT_WEATHER_MENU.get()
                                     },
 
                             StandStats.class, new StandStats.Builder()

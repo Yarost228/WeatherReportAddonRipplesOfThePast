@@ -309,6 +309,7 @@ public class WeatherReportModel extends HumanoidStandModel<WeatherReportEntity> 
 	@Override
 	protected ModelPose<WeatherReportEntity> initIdlePose() {
 		return new ModelPose<>(new RotationAngle[] {
+				new RotationAngle(upperPart, 0, 0, 0),
 				new RotationAngle(leftArm, -0.0425F, 0.7769F, -0.1841F),
 				new RotationAngle(leftForeArm, 0.0F, 0.0F, 0.0F),
 				new RotationAngle(rightArm, 0.0003F, -0.7816F, 0.1231F),
