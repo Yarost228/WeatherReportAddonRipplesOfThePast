@@ -25,7 +25,7 @@ public class WeatherReportLightning extends StandEntityAction {
     @Override
     public void standPerform(World world, StandEntity standEntity, IStandPower userPower, StandEntityTask task) {
         if (!world.isClientSide()) {
-            RayTraceResult target = standEntity.aimWithStandOrUser(25, task.getTarget());
+            RayTraceResult target = standEntity.aimWithStandOrUser(100, task.getTarget());
             Vector3d pos = target.getLocation();
             if (pos != null) {
                 LightningBoltEntity lightningboltentity = EntityType.LIGHTNING_BOLT.create(world);
