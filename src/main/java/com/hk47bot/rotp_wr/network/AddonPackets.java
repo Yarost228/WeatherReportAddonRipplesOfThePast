@@ -11,7 +11,6 @@ import java.util.Optional;
 
 public class AddonPackets {
     private static final String PROTOCOL_VERSION = "1";
-    private static SimpleChannel serverChannel;
     private static SimpleChannel clientChannel;
     private static int packetIndex = 0;
 

@@ -26,7 +26,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class WeatherChangeMenu extends Screen {
-    private final Optional<WeatherType> previousHovered;
+    private Optional<WeatherType> previousHovered;
     private Optional<WeatherType> currentlyHovered = Optional.empty();
     private static final int ALL_SLOTS_WIDTH = WeatherType.values().length * 30 - 5;
     private int firstMouseX;
@@ -37,7 +37,7 @@ public class WeatherChangeMenu extends Screen {
     public static final ResourceLocation WEATHER_CHANGE_MENU = new ResourceLocation(RotpWeatherReportAddon.MOD_ID, "textures/gui/weather_change_gui.png");
     public WeatherChangeMenu(){
         super(NarratorChatListener.NO_TITLE);
-        this.previousHovered = WeatherType.getFromWeatherType(WeatherType.CLEAR);
+        this.previousHovered = getPreviousHovered();
     }
     public static void openWindowOnClick() {
         Minecraft mc = Minecraft.getInstance();
@@ -45,6 +45,20 @@ public class WeatherChangeMenu extends Screen {
             Screen screen = new WeatherChangeMenu();
             mc.setScreen(screen);
         }
+    }
+    public Optional<WeatherType> getPreviousHovered(){
+        Minecraft mc = Minecraft.getInstance();
+        if (mc.player.getCapability(PlayerWeatherChangeCapabilityProvider.CAPABILITY).resolve().isPresent()){
+            String prevType = mc.player
+                    .getCapability(PlayerWeatherChangeCapabilityProvider.CAPABILITY)
+                    .resolve()
+                    .get()
+                    .getPreviousWeatherType();
+            if (prevType != null){
+                return WeatherType.getFromWeatherType(WeatherType.getByWeatherType(prevType));
+            }
+        }
+        return WeatherType.getFromWeatherType(WeatherType.CLEAR);
     }
     @Override
     public boolean isPauseScreen() {
@@ -64,11 +78,11 @@ public class WeatherChangeMenu extends Screen {
                 this.previousHovered
                         .isPresent()
                         ? this.previousHovered
-                        : WeatherType.getFromWeatherType(minecraft.player
+                        : WeatherType.getFromWeatherType(WeatherType.getByWeatherType(minecraft.player
                         .getCapability(PlayerWeatherChangeCapabilityProvider.CAPABILITY)
                         .resolve()
                         .get()
-                        .getCurrentWeatherType());
+                        .getCurrentWeatherType()));
 
         for (int i = 0; i < WeatherType.VALUES.length; ++i) {
             WeatherType type = WeatherType.VALUES[i];
@@ -86,9 +100,7 @@ public class WeatherChangeMenu extends Screen {
             blit(matrixStack, i, j, 0.0F, 0.0F, 125, 75, 128, 128);
             matrixStack.popPose();
             super.render(matrixStack, x, y, p_230430_4_);
-            this.currentlyHovered.ifPresent((p_238712_2_) -> {
-                drawCenteredString(matrixStack, this.font, p_238712_2_.getName(), this.width / 2, this.height / 2 - 30 - 20, -1);
-            });
+            this.currentlyHovered.ifPresent((p_238712_2_) -> drawCenteredString(matrixStack, this.font, p_238712_2_.getName(), this.width / 2, this.height / 2 - 30 - 20, -1));
             drawCenteredString(matrixStack, this.font, SELECT_WEATHER_TYPE, this.width / 2, this.height / 2 + 5, 16777215);
             if (!this.setFirstMousePos) {
                 this.firstMouseX = x;
@@ -100,9 +112,7 @@ public class WeatherChangeMenu extends Screen {
 
             for(SelectorWidget selectorWidget : this.slots) {
                 selectorWidget.render(matrixStack, x, y, p_230430_4_);
-                this.currentlyHovered.ifPresent((type) -> {
-                    selectorWidget.setSelected(type == selectorWidget.icon);
-                });
+                this.currentlyHovered.ifPresent((type) -> selectorWidget.setSelected(type == selectorWidget.icon));
                 if (!flag && selectorWidget.isHovered()) {
                     this.currentlyHovered = Optional.of(selectorWidget.icon);
                 }
@@ -121,11 +131,15 @@ public class WeatherChangeMenu extends Screen {
     }
     private void switchToHoveredWeatherTypeAndClose(Minecraft minecraft, Optional<WeatherType> hovered){
         if (hovered.isPresent()){
-            AddonPackets.sendToServer(new PlayerWeatherChangePacket(currentlyHovered.get().getWeatherType()));
+            AddonPackets.sendToServer(new PlayerWeatherChangePacket(hovered.get().getWeatherType()));
+            RotpWeatherReportAddon.getLogger().info(hovered.get().weatherType);
+            previousHovered = hovered;
         }
-        else {
+        else if (previousHovered.isPresent()){
             AddonPackets.sendToServer(new PlayerWeatherChangePacket(previousHovered.get().getWeatherType()));
+            RotpWeatherReportAddon.getLogger().info(previousHovered.get().weatherType);
         }
+        minecraft.setScreen(null);
     }
 
     public enum WeatherType {
@@ -158,9 +172,7 @@ public class WeatherChangeMenu extends Screen {
             return this.weatherType;
         }
         public static WeatherType getByWeatherType(String weatherType){
-            List<WeatherType> types = Arrays.stream(values()).filter(type -> {
-                return type.getWeatherType() == weatherType;
-            }).collect(Collectors.toList());
+            List<WeatherType> types = Arrays.stream(values()).filter(type -> type.getWeatherType() == weatherType).collect(Collectors.toList());
             Optional<WeatherType> matchType = types.stream().findFirst();
             System.out.println(types.stream().count());
             return matchType.orElse(null);

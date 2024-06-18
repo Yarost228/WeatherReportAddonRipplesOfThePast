@@ -1,22 +1,26 @@
 package com.hk47bot.rotp_wr.capability;
 
-import com.hk47bot.rotp_wr.client.ui.weather.WeatherChangeMenu;
 import net.minecraft.entity.player.PlayerEntity;
+
+import java.util.Optional;
 
 public class PlayerWeatherChangeCapability  {
     private PlayerEntity player;
-    private WeatherChangeMenu.WeatherType currentWeatherType;
+    private String currentWeatherType;
+    private String previousWeatherType;
     public PlayerWeatherChangeCapability(PlayerEntity player){
         this.player = player;
     }
-    public void setCurrentWeatherType(WeatherChangeMenu.WeatherType newType){
+    public void setCurrentWeatherType(String newType){
+        this.previousWeatherType = this.currentWeatherType;
         this.currentWeatherType = newType;
+        System.out.println("Weather changed to:" + currentWeatherType);
     }
-    public WeatherChangeMenu.WeatherType getCurrentWeatherType(){
+    public String getCurrentWeatherType(){
         return currentWeatherType;
     }
-
-    public void onTracking(PlayerEntity player){
-        player = this.player;
+    public String getPreviousWeatherType(){
+        return previousWeatherType;
     }
+
 }

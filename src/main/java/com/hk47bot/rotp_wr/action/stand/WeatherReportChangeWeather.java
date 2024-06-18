@@ -14,6 +14,7 @@ import corgitaco.betterweather.helpers.BetterWeatherWorldData;
 import corgitaco.betterweather.weather.BWWeatherEventContext;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.fml.ModList;
@@ -30,31 +31,34 @@ public class WeatherReportChangeWeather extends StandEntityAction {
 
     @Override
     public void standPerform(World world, StandEntity standEntity, IStandPower userPower, StandEntityTask task) {
-            int rainTime = RANDOM.nextInt(12000) + 3600;
-            int clearTime = RANDOM.nextInt(168000) + 12000;
-            if (!ModList.get().isLoaded("betterweather")){
-                if (!world.isClientSide()) {
+        int rainTime = RANDOM.nextInt(12000) + 3600;
+        int clearTime = RANDOM.nextInt(168000) + 12000;
+        if (!ModList.get().isLoaded("betterweather")) {
+            if (!world.isClientSide()) {
                 if (!world.isRaining()) {
                     ((ServerWorld) world).setWeatherParameters(0, rainTime, true, false);
-                }
-                else {
+                } else {
                     ((ServerWorld) world).setWeatherParameters(clearTime, 0, false, false);
                 }
             }
-            else {
-                BWWeatherEventContext weatherEventContext = ((BetterWeatherWorldData)world).getWeatherEventContext();
-                if (weatherEventContext != null && !world.isClientSide()){
+        }
+        else {
+            if (!world.isClientSide()){
+                ServerWorld serverWorld = (ServerWorld)world;
+                BWWeatherEventContext weatherEventContext = ((BetterWeatherWorldData) serverWorld).getWeatherEventContext();
+                RotpWeatherReportAddon.getLogger().info(weatherEventContext != null);
+                if (weatherEventContext != null) {
                     PlayerEntity player = (PlayerEntity) userPower.getUser();
-                    if (player.getCapability(PlayerWeatherChangeCapabilityProvider.CAPABILITY).resolve().isPresent()){
-                        String weatherType = player.getCapability(PlayerWeatherChangeCapabilityProvider.CAPABILITY).resolve().get().getCurrentWeatherType().getWeatherType();
-                        if (weatherEventContext.getCurrentEvent().getName() != weatherType){
-                            ((ServerWorld) world).setWeatherParameters(0, rainTime, true, false);
-                            weatherEventContext.setWeatherForced(true);
-                            weatherEventContext.weatherForcer(weatherType, RANDOM.nextInt(12000) + 3600, (ServerWorld) world);
-                        }
-                    }
+                    RotpWeatherReportAddon.getLogger().info(player.getCapability(PlayerWeatherChangeCapabilityProvider.CAPABILITY).isPresent());
+                    player.getCapability(PlayerWeatherChangeCapabilityProvider.CAPABILITY).ifPresent(cap -> {
+                        RotpWeatherReportAddon.getLogger().info("Capability is present");
+                        String weatherType = cap.getCurrentWeatherType();
+                        RotpWeatherReportAddon.getLogger().info(weatherType);
+                        weatherEventContext.setWeatherForced(true);
+                        weatherEventContext.weatherForcer(weatherType, rainTime, serverWorld);
+                    });
                 }
             }
-            }
+        }
     }
 }
