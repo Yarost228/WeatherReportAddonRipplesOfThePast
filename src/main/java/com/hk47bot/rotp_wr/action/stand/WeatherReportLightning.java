@@ -7,6 +7,7 @@ import com.github.standobyte.jojo.entity.stand.StandEntity;
 import com.github.standobyte.jojo.entity.stand.StandEntityTask;
 import com.github.standobyte.jojo.power.impl.stand.IStandPower;
 
+import com.github.standobyte.jojo.util.general.GeneralUtil;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.LightningBoltEntity;
@@ -28,34 +29,24 @@ public class WeatherReportLightning extends StandEntityAction {
             RayTraceResult target = standEntity.aimWithStandOrUser(100, task.getTarget());
             Vector3d pos = target.getLocation();
             if (pos != null) {
-                LightningBoltEntity lightningboltentity = EntityType.LIGHTNING_BOLT.create(world);
-                lightningboltentity.moveTo(pos);
-                lightningboltentity.setCause(userPower.getUser() instanceof ServerPlayerEntity ? (ServerPlayerEntity) userPower.getUser() : null);
-                LightningBoltEntity lightningboltentity1 = EntityType.LIGHTNING_BOLT.create(world);
-                lightningboltentity1.moveTo(pos);
-                lightningboltentity1.setCause(userPower.getUser() instanceof ServerPlayerEntity ? (ServerPlayerEntity) userPower.getUser() : null);
-                world.addFreshEntity(lightningboltentity);
-                world.addFreshEntity(lightningboltentity1);
-                if (world.isRaining() && userPower.getResolveLevel() >= 3){
-                    LightningBoltEntity lightningboltentity2 = EntityType.LIGHTNING_BOLT.create(world);
-                    lightningboltentity2.moveTo(pos);
-                    lightningboltentity2.setCause(userPower.getUser() instanceof ServerPlayerEntity ? (ServerPlayerEntity) userPower.getUser() : null);
-                    LightningBoltEntity lightningboltentity21 = EntityType.LIGHTNING_BOLT.create(world);
-                    lightningboltentity21.moveTo(pos);
-                    lightningboltentity21.setCause(userPower.getUser() instanceof ServerPlayerEntity ? (ServerPlayerEntity) userPower.getUser() : null);
-                    world.addFreshEntity(lightningboltentity21);
-                    world.addFreshEntity(lightningboltentity2);
+                int count;
+                if (world.isRaining()){
+                    if (world.isThundering()){
+                        count = 9;
+                    }
+                    else {
+                        count = 6;
+                    }
                 }
-                if (world.isThundering() && userPower.getResolveLevel() >= 4){
-                    LightningBoltEntity lightningboltentity3 = EntityType.LIGHTNING_BOLT.create(world);
-                    lightningboltentity3.moveTo(pos);
-                    lightningboltentity3.setCause(userPower.getUser() instanceof ServerPlayerEntity ? (ServerPlayerEntity) userPower.getUser() : null);
-                    LightningBoltEntity lightningboltentity31 = EntityType.LIGHTNING_BOLT.create(world);
-                    lightningboltentity31.moveTo(pos);
-                    lightningboltentity31.setCause(userPower.getUser() instanceof ServerPlayerEntity ? (ServerPlayerEntity) userPower.getUser() : null);
-                    world.addFreshEntity(lightningboltentity31);
-                    world.addFreshEntity(lightningboltentity3);
+                else {
+                    count = 3;
                 }
+                GeneralUtil.doFractionTimes(() -> {
+                    LightningBoltEntity bolt = EntityType.LIGHTNING_BOLT.create(world);
+                    bolt.moveTo(pos);
+                    bolt.setCause((ServerPlayerEntity) userPower.getUser());
+                    world.addFreshEntity(bolt);
+                }, count);
             }
         }
     }
