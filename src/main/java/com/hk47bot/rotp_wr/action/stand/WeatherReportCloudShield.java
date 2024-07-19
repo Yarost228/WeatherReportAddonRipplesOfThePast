@@ -3,6 +3,7 @@ package com.hk47bot.rotp_wr.action.stand;
 import com.github.standobyte.jojo.action.stand.StandEntityAction;
 import com.github.standobyte.jojo.client.ClientUtil;
 import com.github.standobyte.jojo.client.sound.ClientTickingSoundsHelper;
+import com.github.standobyte.jojo.entity.damaging.projectile.ownerbound.OwnerBoundProjectileEntity;
 import com.github.standobyte.jojo.entity.stand.StandEntity;
 import com.github.standobyte.jojo.entity.stand.StandEntityTask;
 import com.github.standobyte.jojo.entity.stand.StandPose;
@@ -11,6 +12,7 @@ import com.github.standobyte.jojo.power.impl.stand.StandInstance;
 import com.hk47bot.rotp_wr.init.InitSounds;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.projectile.ProjectileEntity;
+import net.minecraft.network.play.server.SPlayerAbilitiesPacket;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
@@ -22,7 +24,6 @@ public class WeatherReportCloudShield extends StandEntityAction {
     public WeatherReportCloudShield(StandEntityAction.Builder builder) {
         super(builder
                 .holdType()
-                .staminaCostTick(2F)
                 .standUserWalkSpeed(0.5F)
                 .standPose(StandPose.BLOCK)
                 .standOffsetFromUser(0, -0.4)
@@ -30,19 +31,17 @@ public class WeatherReportCloudShield extends StandEntityAction {
     }
     @Override
     public void standTickPerform(World world, StandEntity standEntity, IStandPower userPower, StandEntityTask task) {
-            LivingEntity user = userPower.getUser ();
-            Random random = new Random();
-            world.getEntitiesOfClass(ProjectileEntity.class, user.getBoundingBox().inflate(2.5),
-                    entity -> entity != null && entity.isAlive()).forEach(projectile -> {
-                        Vector3d randomOffset = new Vector3d((random.nextDouble () - random.nextDouble () ) * 0.5, (random.nextDouble ()  - random.nextDouble () ) * 0.5, (random.nextDouble ()  - random.nextDouble () ) * 0.5);
-                        Vector3d lookVec = standEntity.getLookAngle().add(randomOffset);
-                        if (!world.isClientSide ()){
-                            projectile.setDeltaMovement(lookVec);
-                        }
-                        if (world.isClientSide ()){
-                            world.addParticle(ParticleTypes.CLOUD, projectile.getX (), projectile.getY (), projectile.getZ (), 0, 0, 0);
-                        }
-                    });
+        LivingEntity user = userPower.getUser();
+        world.getEntitiesOfClass(ProjectileEntity.class, user.getBoundingBox().inflate(2.5),
+                entity -> entity != null && entity.isAlive() && !entity.isPickable() && !(entity instanceof OwnerBoundProjectileEntity)).forEach(projectile -> {
+                    Vector3d stop = new Vector3d(0, projectile.getDeltaMovement().y(), 0);
+                    if (!world.isClientSide()) {
+                        projectile.setDeltaMovement(stop);
+                    }
+                    if (world.isClientSide()) {
+                        world.addParticle(ParticleTypes.CLOUD, projectile.getX(), projectile.getY(), projectile.getZ(), 0, 0, 0);
+                    }
+                });
     }
     @Override
     public void phaseTransition(World world, StandEntity standEntity, IStandPower standPower,
