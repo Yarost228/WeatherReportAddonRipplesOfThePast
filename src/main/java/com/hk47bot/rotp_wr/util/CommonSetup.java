@@ -13,7 +13,6 @@ public class CommonSetup {
     @SubscribeEvent
     public static void onFMLCommonSetup(FMLCommonSetupEvent event) {
         event.enqueueWork(() -> {
-            RegisterCapabilities.registerCapabilities();
             AddonPackets.init();
         });
     }
