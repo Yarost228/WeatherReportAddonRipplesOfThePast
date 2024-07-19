@@ -3,15 +3,9 @@ package com.hk47bot.rotp_wr.entity.stand.stands;
 import com.github.standobyte.jojo.entity.stand.StandEntity;
 import com.github.standobyte.jojo.entity.stand.StandEntityType;
 
-import com.hk47bot.rotp_wr.client.ui.weather.WeatherChangeMenu;
 import com.hk47bot.rotp_wr.init.InitStands;
-import net.minecraft.client.gui.screen.GamemodeSelectionScreen;
-import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.world.World;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class WeatherReportEntity extends StandEntity {
     public WeatherReportEntity(StandEntityType<WeatherReportEntity> type, World world) {
