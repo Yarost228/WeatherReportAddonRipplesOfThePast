@@ -7,19 +7,29 @@ import com.github.standobyte.jojo.init.ModBlocks;
 import com.github.standobyte.jojo.init.ModParticles;
 import com.github.standobyte.jojo.init.ModStatusEffects;
 import com.github.standobyte.jojo.power.impl.stand.IStandPower;
+import com.github.standobyte.jojo.util.GameplayEventHandler;
 import com.github.standobyte.jojo.util.general.GeneralUtil;
 
+import com.hk47bot.rotp_wr.block.BloodPuddleBlock;
+import com.hk47bot.rotp_wr.block.BloodSpikesBlock;
+import com.hk47bot.rotp_wr.init.InitBlocks;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.CampfireBlock;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.monster.BlazeEntity;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
+
+import static com.hk47bot.rotp_wr.block.BloodPuddleBlock.FACING;
+import static com.hk47bot.rotp_wr.block.BloodPuddleBlock.STAGE;
+
 public class WeatherReportColdWind extends StandEntityAction {
 
     public WeatherReportColdWind(StandEntityAction.Builder builder) {
@@ -45,6 +55,10 @@ public class WeatherReportColdWind extends StandEntityAction {
                     if (effectTarget.isOnFire()){
                         effectTarget.setRemainingFireTicks(2);
                     }
+                    if (effectTarget instanceof BlazeEntity){
+                        BlazeEntity blaze = (BlazeEntity) effectTarget;
+                        blaze.hurt(DamageSource.DROWN, 1.0F);
+                     }
                 }
             }
         });
@@ -63,7 +77,6 @@ public class WeatherReportColdWind extends StandEntityAction {
                 world.addParticle(ParticleTypes.CLOUD, particlePos.x, particlePos.y, particlePos.z, -vecToStand.x,  -vecToStand.y, -vecToStand.z);
             }, 5);
         }
-        if (!world.isClientSide()){
             RayTraceResult target = standEntity.aimWithStandOrUser(RANGE, task.getTarget());
             Vector3d pos = target.getLocation();
             BlockPos targetedBlockPos = new BlockPos(pos);
@@ -74,6 +87,8 @@ public class WeatherReportColdWind extends StandEntityAction {
             else if (targetedBlockState.is(Blocks.FIRE) || targetedBlockState.is(ModBlocks.MAGICIANS_RED_FIRE.get())){
                 world.removeBlock(targetedBlockPos, false);
             }
-        }
+            else if (targetedBlockState.getBlock() == InitBlocks.BLOOD_PUDDLE.get()){
+                world.setBlock(targetedBlockPos, InitBlocks.BLOOD_SPIKES.get().defaultBlockState().setValue(STAGE, targetedBlockState.getValue(STAGE)).setValue(FACING, targetedBlockState.getValue(FACING)), 1);
+            }
     }
 }
