@@ -2,17 +2,23 @@ package com.hk47bot.rotp_wr.client.render.entity.model.stand;
 
 import com.github.standobyte.jojo.action.stand.StandEntityAction;
 import com.github.standobyte.jojo.client.render.entity.model.stand.HumanoidStandModel;
-import com.github.standobyte.jojo.client.render.entity.pose.ModelPose;
-import com.github.standobyte.jojo.client.render.entity.pose.RotationAngle;
+import com.github.standobyte.jojo.client.render.entity.pose.*;
 import com.github.standobyte.jojo.client.render.entity.pose.anim.PosedActionAnimation;
+import com.github.standobyte.jojo.client.render.entity.pose.anim.barrage.StandTwoHandedBarrageAnimation;
 import com.github.standobyte.jojo.entity.stand.StandPose;
+import com.github.standobyte.jojo.power.impl.stand.IStandPower;
+import com.github.standobyte.jojo.power.impl.stand.StandInstance;
 import com.github.standobyte.jojo.util.general.MathUtil;
 import com.hk47bot.rotp_wr.action.stand.WeatherReportChangeWeather;
 import com.hk47bot.rotp_wr.action.stand.WeatherReportWind;
+import com.hk47bot.rotp_wr.client.barrage.WeatherReportBarrageAnimation;
 import com.hk47bot.rotp_wr.entity.stand.stands.WeatherReportEntity;
 
+import com.hk47bot.rotp_wr.init.InitStands;
 import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.util.math.MathHelper;
+
+import javax.annotation.Nullable;
 // Made with Blockbench 4.9.3
 // Exported for Minecraft version 1.15 - 1.16 with Mojang mappings
 // Paste this class into your mod and generate all required imports
@@ -112,7 +118,7 @@ public class WeatherReportModel extends HumanoidStandModel<WeatherReportEntity> 
 		cloud3.texOffs(0, 52).addBox(-0.5F, -5.25F, 10.75F, 4.0F, 2.0F, 4.0F, 0.0F, false);
 
 		cloud4 = new ModelRenderer(this);
-		cloud4.setPos(0.0F, 0.0F, -1.2F);
+		cloud4.setPos(0.0F, 2.0F, -1.2F);
 		cloud.addChild(cloud4);
 		setRotationAngle(cloud4, 0.0F, -22.5F, 0.0F);
 		cloud4.texOffs(0, 52).addBox(2.75F, 6.6F, -13.3F, 4.0F, 2.0F, 4.0F, 0.0F, false);
@@ -129,7 +135,7 @@ public class WeatherReportModel extends HumanoidStandModel<WeatherReportEntity> 
 		cloud1.texOffs(0, 52).addBox(-15.25F, -5.0F, -3.0F, 4.0F, 2.0F, 4.0F, 0.0F, false);
 
 		cloud2 = new ModelRenderer(this);
-		cloud2.setPos(0.0F, 1.5F, 0.0F);
+		cloud2.setPos(0.0F, 0F, 0.0F);
 		cloud.addChild(cloud2);
 		setRotationAngle(cloud2, 0.0F, -0.3927F, 0.0F);
 		cloud2.texOffs(0, 52).addBox(-8.75F, 5.5F, 6.25F, 4.0F, 2.0F, 4.0F, 0.0F, false);
@@ -205,28 +211,74 @@ public class WeatherReportModel extends HumanoidStandModel<WeatherReportEntity> 
 	}
 
 	@Override
-	public void prepareMobModel(WeatherReportEntity entity,  float walkAnimPos, float walkAnimSpeed, float partialTick) {
-		super.prepareMobModel(entity, walkAnimPos, walkAnimSpeed, partialTick);
-		if (cloud != null){
-			cloud.visible = !entity.isBarraging();
-			if (!entity.isArmsOnlyMode()){
-				if (entity.isDeflecting()){
+	public void prepareMobModel(@Nullable WeatherReportEntity entity, float walkAnimPos, float walkAnimSpeed, float partialTick) {
+        if (entity != null){
+			if (entity.getCurrentTaskAction() == InitStands.WEATHER_REPORT_ICICLE_STRIKE.get()){
+				this.rightForeArm.visible = false;
+				this.rightArmJoint.visible = false;
+			}
+			else {
+				this.rightForeArm.visible = true;
+				this.rightArmJoint.visible = true;
+			}
+            if (cloud != null){
+				cloud.visible = true;
+				if (entity.isDeflecting() || (entity.getCurrentTaskAction() == InitStands.WEATHER_REPORT_BLOCK.get() && entity.isArmsOnlyMode())){
 					cloud1.yRot = -45;
 					cloud2.yRot = -165;
 					cloud3.yRot = -35;
 					cloud4.yRot = 200;
-					cloudOnlyMode(true);
 				}
 				else {
 					cloud1.yRot = -entity.cloudRotation;
 					cloud2.yRot = entity.cloudRotation;
 					cloud3.yRot = entity.cloudRotation;
 					cloud4.yRot = -entity.cloudRotation;
-					cloudOnlyMode(false);
 				}
-			}
-			else {
-				cloud.visible = false;
+            }
+        }
+		super.prepareMobModel(entity, walkAnimPos, walkAnimSpeed, partialTick);
+	}
+
+	public ModelRenderer getClouds(){
+		return cloud;
+	}
+
+	@Override
+	public void updatePartsVisibility(VisibilityMode mode) {
+		if (mode == VisibilityMode.ALL) {
+			head.visible = true;
+			torso.visible = true;
+			leftLeg.visible = true;
+			rightLeg.visible = true;
+			leftArm.visible = true;
+			rightArm.visible = true;
+			cloud.visible = true;
+		}
+		else {
+			head.visible = false;
+			torso.visible = false;
+			leftLeg.visible = false;
+			rightLeg.visible = false;
+			cloud.visible = false;
+			switch (mode) {
+				case ARMS_ONLY:
+					leftArm.visible = true;
+					rightArm.visible = true;
+					break;
+				case LEFT_ARM_ONLY:
+					leftArm.visible = true;
+					rightArm.visible = false;
+					break;
+				case RIGHT_ARM_ONLY:
+					leftArm.visible = false;
+					rightArm.visible = true;
+					break;
+				case NONE:
+					leftArm.visible = false;
+					rightArm.visible = false;
+				case ALL:
+					break;
 			}
 		}
 	}
@@ -262,15 +314,17 @@ public class WeatherReportModel extends HumanoidStandModel<WeatherReportEntity> 
 
 	@Override
 	protected void initActionPoses() {
-		actionAnim.put(StandPose.RANGED_ATTACK, new PosedActionAnimation.Builder<WeatherReportEntity>()
-				.addPose(StandEntityAction.Phase.BUTTON_HOLD, new ModelPose<>(new RotationAngle[] {
+		actionAnim.putIfAbsent(StandPose.RANGED_ATTACK, new PosedActionAnimation.Builder<WeatherReportEntity>()
+				.addPose(StandEntityAction.Phase.BUTTON_HOLD, new ModelPose<WeatherReportEntity>(new RotationAngle[] {
 						new RotationAngle(body, 0.0F, -0.48F, 0.0F),
-						new RotationAngle(leftArm, 0.0F, 0.0F, -0.7854F),
-						new RotationAngle(leftForeArm, 0.0F, 0.0F, 0.6109F),
 						new RotationAngle(rightArm, -1.0908F, 0.0F, 1.5708F),
 						new RotationAngle(rightForeArm, 0.0F, 0.0F, 0.0F)
+				}).setAdditionalAnim((rotationAmount, entity, ticks, yRotationOffset, xRotation) -> {
+					float xRot = xRotation * MathUtil.DEG_TO_RAD;
+					rightArm.xRotSecond = xRot;
 				}))
 				.build(idlePose));
+
 		actionAnim.put(WeatherReportWind.WIND_BLOW, new PosedActionAnimation.Builder<WeatherReportEntity>()
 				.addPose(StandEntityAction.Phase.BUTTON_HOLD, new ModelPose<WeatherReportEntity>(new RotationAngle[] {
 						new RotationAngle(body, 0.0F, 0.0F, 0.0F),
@@ -290,6 +344,7 @@ public class WeatherReportModel extends HumanoidStandModel<WeatherReportEntity> 
 					leftArm.zRot = -rightArm.zRot;
 				}))
 				.build(idlePose));
+
 		actionAnim.put(WeatherReportChangeWeather.WEATHER_CHANGE_POSE, new PosedActionAnimation.Builder<WeatherReportEntity>()
 				.addPose(StandEntityAction.Phase.BUTTON_HOLD, new ModelPose<>(new RotationAngle[] {
 						new RotationAngle(cloud, 0.0F, 12.0F, 0.0F),
@@ -300,6 +355,51 @@ public class WeatherReportModel extends HumanoidStandModel<WeatherReportEntity> 
 						new RotationAngle(rightForeArm, 0.0F, 0.0F, 0.0F)
 				}))
 				.build(idlePose));
+
+		ModelPose.ModelAnim<WeatherReportEntity> armsRotationFull = (rotationAmount, entity, ticks, yRotOffsetRad, xRotRad) -> {
+			setSecondXRot(leftArm, xRotRad);
+			setSecondXRot(rightArm, xRotRad);
+		};
+
+		RotationAngle[] barrageRightImpact = new RotationAngle[] {
+				RotationAngle.fromDegrees(body, 0, 0, 0),
+				RotationAngle.fromDegrees(upperPart, 0, -30, 0),
+				RotationAngle.fromDegrees(leftArm, 22.5F, 0, -60),
+				RotationAngle.fromDegrees(leftForeArm, -135, 0, 0),
+				RotationAngle.fromDegrees(rightArm, -90, 0, 90),
+				RotationAngle.fromDegrees(rightForeArm, 0, 0, 0)
+		};
+
+		IModelPose<WeatherReportEntity> barrageHitStart = new ModelPoseSided<>(
+				new ModelPose<WeatherReportEntity>(barrageRightImpact).setAdditionalAnim(armsRotationFull),
+				new ModelPose<WeatherReportEntity>(mirrorAngles(barrageRightImpact)).setAdditionalAnim(armsRotationFull));
+
+		IModelPose<WeatherReportEntity> barrageHitImpact = new ModelPoseSided<>(
+				new ModelPose<WeatherReportEntity>(mirrorAngles(barrageRightImpact)).setAdditionalAnim(armsRotationFull),
+				new ModelPose<WeatherReportEntity>(barrageRightImpact).setAdditionalAnim(armsRotationFull));
+
+		IModelPose<WeatherReportEntity> barrageRecovery = new ModelPose<>(new RotationAngle[] {
+				RotationAngle.fromDegrees(body, 0, 0, 0),
+				RotationAngle.fromDegrees(upperPart, 0, 0, 0),
+				RotationAngle.fromDegrees(leftArm, 22.5F, 0, -22.5F),
+				RotationAngle.fromDegrees(leftForeArm, -75, 7.5F, 22.5F),
+				RotationAngle.fromDegrees(rightArm, 22.5F, 0, 22.5F),
+				RotationAngle.fromDegrees(rightForeArm, -75, -7.5F, -22.5F)
+		});
+
+		actionAnim.putIfAbsent(StandPose.BARRAGE, new WeatherReportBarrageAnimation<>(this,
+				new ModelPoseTransition<WeatherReportEntity>(barrageHitStart, barrageHitImpact).setEasing(HumanoidStandModel::barrageHitEasing),
+				new ModelPoseTransitionMultiple.Builder<WeatherReportEntity>(new ModelPose<WeatherReportEntity>(
+						RotationAngle.fromDegrees(body, 0, 0, 0),
+						RotationAngle.fromDegrees(upperPart, 0, 0, 0),
+						RotationAngle.fromDegrees(leftArm, -33.75F, 0, -75),
+						RotationAngle.fromDegrees(leftForeArm, -67.5F, 0, 0),
+						RotationAngle.fromDegrees(rightArm, -33.75F, 0, 75),
+						RotationAngle.fromDegrees(rightForeArm, -67.5F, 0, 0)).setAdditionalAnim(armsRotationFull))
+						.addPose(0.25F, barrageRecovery)
+						.addPose(0.5F, barrageRecovery)
+						.build(idlePose)));
+
 		super.initActionPoses();
 
 	}
@@ -330,13 +430,5 @@ public class WeatherReportModel extends HumanoidStandModel<WeatherReportEntity> 
 				new RotationAngle(rightForeArm, 0.0F, 0.0F, 0.0F)
 		});
 
-	}
-	public void cloudOnlyMode(boolean a){
-		head.visible = !a;
-		torso.visible = !a;
-		leftArm.visible = !a;
-		rightArm.visible = !a;
-		leftLeg.visible = !a;
-		rightLeg.visible = !a;
 	}
 }
