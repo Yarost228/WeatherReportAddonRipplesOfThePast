@@ -22,7 +22,8 @@ public class AddonPackets {
                 .networkProtocolVersion(() -> PROTOCOL_VERSION)
                 .simpleChannel();
         packetIndex = 0;
-        registerMessage(clientChannel, new PlayerWeatherChangePacket.Handler(), Optional.of(NetworkDirection.PLAY_TO_SERVER));
+        registerMessage(clientChannel, new BetterWeatherChangePacket.Handler(), Optional.of(NetworkDirection.PLAY_TO_SERVER));
+        registerMessage(clientChannel, new VanillaWeatherChangePacket.Handler(), Optional.of(NetworkDirection.PLAY_TO_SERVER));
     }
     private static <MSG> void registerMessage(SimpleChannel channel, IModPacketHandler<MSG> handler, Optional<NetworkDirection> networkDirection) {
         if (packetIndex > 127) {
