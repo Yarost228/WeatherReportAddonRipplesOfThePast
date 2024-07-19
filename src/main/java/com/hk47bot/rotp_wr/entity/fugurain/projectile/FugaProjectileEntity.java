@@ -38,7 +38,7 @@ public class FugaProjectileEntity extends ModdedProjectileEntity {
 
     @Override
     protected float getBaseDamage() {
-        return 0F;
+        return 1.0F;
     }
 
     @Override
@@ -59,8 +59,9 @@ public class FugaProjectileEntity extends ModdedProjectileEntity {
             CompoundNBT nbt = new CompoundNBT();
             nbt.putString("DeathLootTable", "empty");
             nbt.putInt("PuffState", 2);
+            nbt.putBoolean("SummonedFromRain", true);
             pufferfish.load(nbt);
-            pufferfish.moveTo(blockRayTraceResult.getLocation());
+            pufferfish.moveTo(blockRayTraceResult.getLocation().x(), blockRayTraceResult.getLocation().y()+1, blockRayTraceResult.getLocation().z());
             this.level.addFreshEntity(pufferfish);
         }
         for (int i = 0; i < random.nextDouble()*10; i++){
@@ -74,6 +75,7 @@ public class FugaProjectileEntity extends ModdedProjectileEntity {
             Entity entity = entityRayTraceResult.getEntity();
             if (entity instanceof LivingEntity) {
                 LivingEntity target = (LivingEntity) entity;
+
                 if (target instanceof PufferfishEntity || target instanceof SkeletonEntity){
                     target.addEffect(new EffectInstance(ModStatusEffects.STUN.get(), 60, 0));
                 }
