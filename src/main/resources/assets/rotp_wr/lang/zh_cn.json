@@ -1,0 +1,19 @@
+{
+  "entity.rotp_wr.weather_report": "天气预报",
+  "stand.rotp_wr.weather_report": "天气预报",
+  "action.rotp_wr.weather_report_punch": "轻击",
+  "action.rotp_wr.weather_report_heavy_punch": "重击",
+  "action.rotp_wr.weather_report_finisher": "空气重拳",
+  "action.rotp_wr.weather_report_barrage": "超高速连打",
+  "action.rotp_wr.weather_report_lightning": "雷击",
+  "action.rotp_wr.weather_report_wind": "吹风",
+  "action.rotp_wr.weather_report_cold_wind": "吹寒风",
+  "action.rotp_wr.weather_report_change_weather": "改变天气",
+  "action.rotp_wr.weather_report_block": "防御",
+  "action.rotp_wr.weather_report_cloud_shield": "气体盾",
+  "action.rotp_wr.weather_report_fugu_rain": "河豚雨",
+  "rotp_wr.subtitle.weather_report_name": "\"天气预报\"",
+  "jojo.message.action_condition.fugurain-warningrain": "风停了.",
+  "jojo.message.action_condition.fugurain-warningneedtoseesky": "需要宽阔的空间.",
+  "jojo.message.action_condition.fugurain-warningotherdimension": "无法操纵这里的天气..."
+}
