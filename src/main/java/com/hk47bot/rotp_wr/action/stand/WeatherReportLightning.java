@@ -44,6 +44,7 @@ public class WeatherReportLightning extends StandEntityAction {
                 GeneralUtil.doFractionTimes(() -> {
                     LightningBoltEntity bolt = EntityType.LIGHTNING_BOLT.create(world);
                     bolt.moveTo(pos);
+                    bolt.setDamage(7);
                     bolt.setCause((ServerPlayerEntity) userPower.getUser());
                     world.addFreshEntity(bolt);
                 }, count);
