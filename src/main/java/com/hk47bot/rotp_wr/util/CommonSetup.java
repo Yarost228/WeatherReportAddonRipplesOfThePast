@@ -1,6 +1,5 @@
 package com.hk47bot.rotp_wr.util;
 
-import com.github.standobyte.jojo.network.PacketManager;
 import com.hk47bot.rotp_wr.RotpWeatherReportAddon;
 import com.hk47bot.rotp_wr.network.AddonPackets;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
