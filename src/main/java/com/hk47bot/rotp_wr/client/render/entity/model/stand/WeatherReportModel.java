@@ -4,10 +4,7 @@ import com.github.standobyte.jojo.action.stand.StandEntityAction;
 import com.github.standobyte.jojo.client.render.entity.model.stand.HumanoidStandModel;
 import com.github.standobyte.jojo.client.render.entity.pose.*;
 import com.github.standobyte.jojo.client.render.entity.pose.anim.PosedActionAnimation;
-import com.github.standobyte.jojo.client.render.entity.pose.anim.barrage.StandTwoHandedBarrageAnimation;
 import com.github.standobyte.jojo.entity.stand.StandPose;
-import com.github.standobyte.jojo.power.impl.stand.IStandPower;
-import com.github.standobyte.jojo.power.impl.stand.StandInstance;
 import com.github.standobyte.jojo.util.general.MathUtil;
 import com.hk47bot.rotp_wr.action.stand.WeatherReportChangeWeather;
 import com.hk47bot.rotp_wr.action.stand.WeatherReportWind;
@@ -16,7 +13,6 @@ import com.hk47bot.rotp_wr.entity.stand.stands.WeatherReportEntity;
 
 import com.hk47bot.rotp_wr.init.InitStands;
 import net.minecraft.client.renderer.model.ModelRenderer;
-import net.minecraft.util.math.MathHelper;
 
 import javax.annotation.Nullable;
 // Made with Blockbench 4.9.3
@@ -135,7 +131,7 @@ public class WeatherReportModel extends HumanoidStandModel<WeatherReportEntity> 
 		cloud1.texOffs(0, 52).addBox(-15.25F, -5.0F, -3.0F, 4.0F, 2.0F, 4.0F, 0.0F, false);
 
 		cloud2 = new ModelRenderer(this);
-		cloud2.setPos(0.0F, 0F, 0.0F);
+		cloud2.setPos(0.0F, 11.0F, 0.0F);
 		cloud.addChild(cloud2);
 		setRotationAngle(cloud2, 0.0F, -0.3927F, 0.0F);
 		cloud2.texOffs(0, 52).addBox(-8.75F, 5.5F, 6.25F, 4.0F, 2.0F, 4.0F, 0.0F, false);
@@ -245,45 +241,6 @@ public class WeatherReportModel extends HumanoidStandModel<WeatherReportEntity> 
 	}
 
 	@Override
-	public void updatePartsVisibility(VisibilityMode mode) {
-		if (mode == VisibilityMode.ALL) {
-			head.visible = true;
-			torso.visible = true;
-			leftLeg.visible = true;
-			rightLeg.visible = true;
-			leftArm.visible = true;
-			rightArm.visible = true;
-			cloud.visible = true;
-		}
-		else {
-			head.visible = false;
-			torso.visible = false;
-			leftLeg.visible = false;
-			rightLeg.visible = false;
-			cloud.visible = false;
-			switch (mode) {
-				case ARMS_ONLY:
-					leftArm.visible = true;
-					rightArm.visible = true;
-					break;
-				case LEFT_ARM_ONLY:
-					leftArm.visible = true;
-					rightArm.visible = false;
-					break;
-				case RIGHT_ARM_ONLY:
-					leftArm.visible = false;
-					rightArm.visible = true;
-					break;
-				case NONE:
-					leftArm.visible = false;
-					rightArm.visible = false;
-				case ALL:
-					break;
-			}
-		}
-	}
-
-	@Override
 	protected RotationAngle[][] initSummonPoseRotations() {
 		return new RotationAngle[][] {
 				new RotationAngle[] {
@@ -328,20 +285,14 @@ public class WeatherReportModel extends HumanoidStandModel<WeatherReportEntity> 
 		actionAnim.put(WeatherReportWind.WIND_BLOW, new PosedActionAnimation.Builder<WeatherReportEntity>()
 				.addPose(StandEntityAction.Phase.BUTTON_HOLD, new ModelPose<WeatherReportEntity>(new RotationAngle[] {
 						new RotationAngle(body, 0.0F, 0.0F, 0.0F),
-						new RotationAngle(leftArm, 0, -0.3927F, 0.0F),
 						new RotationAngle(leftForeArm, 0.0F, 1.5708F, 0.3927F),
-						new RotationAngle(rightArm, 0, 0.3927F, 0.0F),
-						new RotationAngle(rightForeArm, 0.0F, -1.5708F, -0.3927F)
-				}).setAdditionalAnim((rotationAmount, entity, ticks, yRotOffsetRad, xRotRad) -> {
-					float blockXRot = MathHelper.clamp(xRotRad, -60 * MathUtil.DEG_TO_RAD, 60 * MathUtil.DEG_TO_RAD) / 2;
-					rightArm.xRot = -1.5708F + blockXRot;
-					leftArm.xRot = rightArm.xRot;
-
-					rightArm.yRot = -blockXRot / 2;
-					leftArm.yRot = -rightArm.yRot;
-
-					rightArm.zRot = -Math.abs(blockXRot) / 2 + 0.7854F;
-					leftArm.zRot = -rightArm.zRot;
+						new RotationAngle(rightForeArm, 0.0F, -1.5708F, -0.3927F),
+						new RotationAngle(rightArm, 0.0F, 0.0F, 0.3927F),
+						new RotationAngle(leftArm, 0.0F, 0.0F, -0.3927F)
+				}).setAdditionalAnim((rotationAmount, entity, ticks, yRotationOffset, xRotation) -> {
+					float xRot = (80 + xRotation) * MathUtil.DEG_TO_RAD;
+					rightArm.xRotSecond = xRot;
+					leftArm.xRotSecond = xRot;
 				}))
 				.build(idlePose));
 
