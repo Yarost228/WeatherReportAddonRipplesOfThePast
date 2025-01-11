@@ -32,6 +32,7 @@
   "jojo.message.action_condition.fugurain-warningrain": "Погода слишком спокойная.",
   "jojo.message.action_condition.fugurain-warningneedtoseesky": "Надо выйти на открытую местность.",
   "jojo.message.action_condition.fugurain-warningotherdimension": "Здесь нет иглобрюхов...",
-  "death.attack.rotp_wr_bleeding": "%1$s истёк кровью",
+  "death.attack.rotp_wr_bleeding": "%s истёк кровью",
+  "death.attack.rotp_wr_bleeding.player": "%s истёк кровью благодаря %s",
   "death.attack.rotp_wr_spikes": "%1$s был пронзён кровяными шипами"
 }

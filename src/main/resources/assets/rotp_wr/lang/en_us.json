@@ -33,5 +33,6 @@
   "jojo.message.action_condition.fugurain-warningneedtoseesky": "Need some open space.",
   "jojo.message.action_condition.fugurain-warningotherdimension": "Can't find any pufferfish here...",
   "death.attack.rotp_wr_bleeding": "%1$s bled out",
+  "death.attack.rotp_wr_bleeding.player": "%s bled out fighting %s",
   "death.attack.rotp_wr_spikes": "%1$s was pierced by blood ice spikes"
 }
