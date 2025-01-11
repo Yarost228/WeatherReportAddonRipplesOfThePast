@@ -1,6 +1,7 @@
 package com.hk47bot.rotp_wr.entity;
 
 import com.github.standobyte.jojo.entity.damaging.projectile.ownerbound.OwnerBoundProjectileEntity;
+import com.github.standobyte.jojo.init.ModStatusEffects;
 import com.github.standobyte.jojo.util.general.GeneralUtil;
 import com.github.standobyte.jojo.util.mod.JojoModUtil;
 import com.hk47bot.rotp_wr.init.InitEffects;
@@ -54,7 +55,7 @@ public class IcicleExtendingProjectileEntity extends OwnerBoundProjectileEntity 
         if (target instanceof LivingEntity){
             LivingEntity livingTarget = (LivingEntity) target;
             if (JojoModUtil.canBleed(livingTarget)){
-                livingTarget.addEffect(new EffectInstance(InitEffects.BLEEDING.get(), 100, 2, false, false, true));
+                livingTarget.addEffect(new EffectInstance(ModStatusEffects.BLEEDING.get(), 100, 2, false, false, true));
             }
         }
         return super.hurtTarget(target, owner);
