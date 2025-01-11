@@ -12,6 +12,7 @@ import net.minecraft.client.gui.chat.NarratorChatListener;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.Widget;
 import net.minecraft.client.renderer.texture.TextureManager;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextFormatting;
@@ -33,9 +34,10 @@ public class BetterWeatherChangeMenu extends Screen {
     public BetterWeatherChangeMenu(){
         super(NarratorChatListener.NO_TITLE);
     }
-    public static void openWindowOnClick() {
+
+    public static void openWindowOnClick(LivingEntity user) {
         Minecraft mc = Minecraft.getInstance();
-        if (mc.screen == null) {
+        if (mc.screen == null && user == mc.player) {
             Screen screen = new BetterWeatherChangeMenu();
             mc.setScreen(screen);
         }

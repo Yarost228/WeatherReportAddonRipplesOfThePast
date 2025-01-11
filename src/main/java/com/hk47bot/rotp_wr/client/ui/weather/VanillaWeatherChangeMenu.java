@@ -12,16 +12,15 @@ import net.minecraft.client.gui.chat.NarratorChatListener;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.Widget;
 import net.minecraft.client.renderer.texture.TextureManager;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 public class VanillaWeatherChangeMenu extends Screen {
     private Optional<VanillaWeatherChangeMenu.WeatherType> currentlyHovered = Optional.empty();
@@ -34,10 +33,11 @@ public class VanillaWeatherChangeMenu extends Screen {
     private static final ITextComponent EMPTY = new TranslationTextComponent("empty", (new TranslationTextComponent("")));
     public static final ResourceLocation WEATHER_CHANGE_MENU = new ResourceLocation(RotpWeatherReportAddon.MOD_ID, "textures/gui/vanilla_weather_change_gui.png");
     public VanillaWeatherChangeMenu(){super(NarratorChatListener.NO_TITLE);}
-    public static void openWindowOnClick() {
+
+    public static void openWindowOnClick(LivingEntity user) {
         Minecraft mc = Minecraft.getInstance();
-        if (mc.screen == null) {
-            Screen screen = new VanillaWeatherChangeMenu();
+        if (mc.screen == null && user == mc.player) {
+            Screen screen = new BetterWeatherChangeMenu();
             mc.setScreen(screen);
         }
     }
