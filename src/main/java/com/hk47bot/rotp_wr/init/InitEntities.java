@@ -23,7 +23,7 @@ public class InitEntities {
 
     public static final RegistryObject<EntityType<FugaProjectileEntity>> FUGU_PROJECTILE = ENTITIES.register("fuga_projectile",
             () -> EntityType.Builder.<FugaProjectileEntity>of(FugaProjectileEntity::new, EntityClassification.MISC)
-                    .sized(1F, 1F)
+                    .sized(1.5F, 1.5F)
                     .setUpdateInterval(10)
                     .build(new ResourceLocation(RotpWeatherReportAddon.MOD_ID, "fuga_projectile").toString()));
 
