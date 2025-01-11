@@ -11,8 +11,6 @@ import com.hk47bot.rotp_wr.client.ui.weather.VanillaWeatherChangeMenu;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.ModList;
 
-import java.util.Random;
-
 public class WeatherReportChangeWeather extends StandEntityAction {
     public static final StandPose WEATHER_CHANGE_POSE = new StandPose("WR_WEATHERCHANGE");
 
@@ -24,10 +22,11 @@ public class WeatherReportChangeWeather extends StandEntityAction {
     public void standPerform(World world, StandEntity standEntity, IStandPower userPower, StandEntityTask task) {
         if (world.isClientSide()) {
             if (ModList.get().isLoaded("betterweather")) {
-                BetterWeatherChangeMenu.openWindowOnClick();
+                BetterWeatherChangeMenu.openWindowOnClick(userPower.getUser());
             } else {
-                VanillaWeatherChangeMenu.openWindowOnClick();
+                VanillaWeatherChangeMenu.openWindowOnClick(userPower.getUser());
             }
+
         }
     }
 }
