@@ -21,25 +21,27 @@ public class WeatherReportEntity extends StandEntity {
     }
     @Override
     public void tick() {
-        super.tick();
         // clouds
-        if (cloudRotation > 360.0F){
-            cloudRotation -= 0.015F;
-            if (this.getCurrentTaskAction() == InitStands.WEATHER_REPORT_CHANGE_WEATHER.get()){
-                cloudRotation -= 0.03F;
+        if (this.level.isClientSide()){
+            if (cloudRotation > 360.0F){
+                cloudRotation -= 0.015F;
+                if (this.getCurrentTaskAction() == InitStands.WEATHER_REPORT_CHANGE_WEATHER.get()){
+                    cloudRotation -= 0.03F;
+                }
             }
-        }
-        else {
-            cloudRotation += 0.015F;
-            if (this.getCurrentTaskAction() == InitStands.WEATHER_REPORT_CHANGE_WEATHER.get()){
-                cloudRotation += 0.03F;
+            else {
+                cloudRotation += 0.015F;
+                if (this.getCurrentTaskAction() == InitStands.WEATHER_REPORT_CHANGE_WEATHER.get()){
+                    cloudRotation += 0.03F;
+                }
             }
         }
         // rain
-        if (this.level.getLevelData().isRaining() && !this.isBarraging()){
+        if (this.level.getLevelData().isRaining()){
             for (int i = 0; i < 2; i++) {
                 this.level.addParticle(ParticleTypes.FALLING_WATER, this.getRandomX(1), this.getRandomY(), this.getRandomZ(1), 0, 1, 0);
             }
         }
+        super.tick();
     }
 }
