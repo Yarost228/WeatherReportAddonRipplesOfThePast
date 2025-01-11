@@ -24,6 +24,7 @@ public class RotpWeatherReportAddon {
 
     public RotpWeatherReportAddon() {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
+        InitParticles.PARTICLES.register(modEventBus);
         InitEntities.ENTITIES.register(modEventBus);
         InitSounds.SOUNDS.register(modEventBus);
         InitStands.ACTIONS.register(modEventBus);
