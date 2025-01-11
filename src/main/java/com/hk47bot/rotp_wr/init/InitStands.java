@@ -66,22 +66,24 @@ public class InitStands {
 
         public static final RegistryObject<StandEntityAction> WEATHER_REPORT_WIND = ACTIONS.register("weather_report_wind", 
             () -> new WeatherReportWind(new StandEntityAction.Builder()
-                    .holdType(80)
+                    .holdType(120)
                     .staminaCostTick(2F)
-                    .cooldown(120)
+                    .cooldown(80)
                     .standPose(WeatherReportWind.WIND_BLOW)
-                    .standOffsetFromUser(0, 1.5).standSound(InitSounds.WEATHER_REPORT_WIND)
+                    .standOffsetFront()
+                    .standSound(InitSounds.WEATHER_REPORT_WIND)
                     .partsRequired(StandPart.ARMS)));
 
         public static final RegistryObject<StandEntityAction> WEATHER_REPORT_COLD_WIND = ACTIONS.register("weather_report_cold_wind", 
             () -> new WeatherReportColdWind(new StandEntityAction.Builder()
                     .holdType(80)
                     .staminaCostTick(3F)
-                    .cooldown(160)
+                    .cooldown(120)
                     .shiftVariationOf(WEATHER_REPORT_WIND)
                     .resolveLevelToUnlock(1)
                     .standPose(WeatherReportWind.WIND_BLOW)
-                    .standOffsetFromUser(0, 1).standSound(InitSounds.WEATHER_REPORT_COLD_WIND)
+                    .standOffsetFront()
+                    .standSound(InitSounds.WEATHER_REPORT_COLD_WIND)
                     .partsRequired(StandPart.MAIN_BODY)));
 
 
@@ -166,7 +168,7 @@ public class InitStands {
                             .addOst(InitSounds.WEATHER_REPORT_OST)),
 
                     InitEntities.ENTITIES, 
-                    () -> new StandEntityType<>(WeatherReportEntity::new, 0.7F, 2.1F)
+                    () -> new StandEntityType<>(WeatherReportEntity::new, 0.65F, 1.95F)
                     .summonSound(InitSounds.WEATHER_REPORT_SUMMON)
                     .unsummonSound(InitSounds.WEATHER_REPORT_UNSUMMON))
             .withDefaultStandAttributes();
