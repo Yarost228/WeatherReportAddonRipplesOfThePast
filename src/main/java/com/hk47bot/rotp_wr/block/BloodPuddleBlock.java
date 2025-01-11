@@ -1,11 +1,9 @@
 package com.hk47bot.rotp_wr.block;
 
-import com.google.common.base.CharMatcher;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.HorizontalBlock;
-import net.minecraft.fluid.WaterFluid;
 import net.minecraft.state.DirectionProperty;
 import net.minecraft.state.IntegerProperty;
 import net.minecraft.state.StateContainer;
@@ -14,6 +12,8 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.world.IBlockReader;
+import net.minecraft.world.IWorld;
+import net.minecraft.world.IWorldReader;
 
 public class BloodPuddleBlock extends Block {
     public static final IntegerProperty STAGE = IntegerProperty.create("stage", 0, 3);
@@ -48,5 +48,12 @@ public class BloodPuddleBlock extends Block {
         else {
             return Direction.EAST;
         }
+    }
+    public boolean canSurvive(BlockState state, IWorldReader world, BlockPos pos) {
+        BlockState blockstate = world.getBlockState(pos.below());
+        return Block.isFaceFull(blockstate.getCollisionShape(world, pos.below()), Direction.UP) && (blockstate.getBlock() != Blocks.AIR && blockstate.getBlock() != Blocks.CAVE_AIR);
+    }
+    public BlockState updateShape(BlockState p_196271_1_, Direction p_196271_2_, BlockState p_196271_3_, IWorld p_196271_4_, BlockPos p_196271_5_, BlockPos p_196271_6_) {
+        return !p_196271_1_.canSurvive(p_196271_4_, p_196271_5_) ? Blocks.AIR.defaultBlockState() : super.updateShape(p_196271_1_, p_196271_2_, p_196271_3_, p_196271_4_, p_196271_5_, p_196271_6_);
     }
 }
