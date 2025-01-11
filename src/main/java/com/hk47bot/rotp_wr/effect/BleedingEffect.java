@@ -20,6 +20,7 @@ import net.minecraft.world.World;
 import static com.hk47bot.rotp_wr.block.BloodPuddleBlock.FACING;
 import static com.hk47bot.rotp_wr.block.BloodPuddleBlock.STAGE;
 
+@Deprecated
 public class BleedingEffect extends Effect {
     public BleedingEffect(EffectType type, int color){super(type, color);}
 
@@ -49,9 +50,10 @@ public class BleedingEffect extends Effect {
             if (Math.random() > 0.8){
                 BlockPos pos = new BlockPos(particlePos.x(), particlePos.y(), particlePos.z());
                 if (world.getBlockState(pos.below()).getBlock() != Blocks.AIR
-                        && world.getBlockState(pos.below()).getBlock() != InitBlocks.BLOOD_PUDDLE.get()
+                        && !world.getBlockState(pos.below()).getBlock().hasDynamicShape()
                         && world.getBlockState(pos.below()).isFaceSturdy(world, pos.below(), Direction.UP)
-                        && world.getBlockState(pos).getBlock() == Blocks.AIR
+                        && (world.getBlockState(pos).getBlock() == Blocks.AIR
+                        || world.getBlockState(pos).getBlock() == Blocks.CAVE_AIR)
                         && world.getBlockState(pos).getBlock() != InitBlocks.BLOOD_SPIKES.get()) {
                     if (world.getBlockState(pos).getBlock() != InitBlocks.BLOOD_PUDDLE.get()) {
                         world.setBlockAndUpdate(pos, InitBlocks.BLOOD_PUDDLE.get().defaultBlockState().setValue(STAGE, 0).setValue(FACING, BloodPuddleBlock.randomDirection()));
