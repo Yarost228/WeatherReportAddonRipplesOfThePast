@@ -12,13 +12,11 @@ import com.github.standobyte.jojo.power.impl.stand.StandInstance;
 import com.hk47bot.rotp_wr.init.InitSounds;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.projectile.ProjectileEntity;
-import net.minecraft.network.play.server.SPlayerAbilitiesPacket;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
-import java.util.Random;
 
 public class WeatherReportCloudShield extends StandEntityAction {
     public WeatherReportCloudShield(StandEntityAction.Builder builder) {
@@ -34,7 +32,7 @@ public class WeatherReportCloudShield extends StandEntityAction {
         LivingEntity user = userPower.getUser();
         world.getEntitiesOfClass(ProjectileEntity.class, user.getBoundingBox().inflate(2.5),
                 entity -> entity != null && entity.isAlive() && !entity.isPickable() && !(entity instanceof OwnerBoundProjectileEntity)).forEach(projectile -> {
-                    Vector3d stop = new Vector3d(0, projectile.getDeltaMovement().y(), 0);
+                    Vector3d stop = new Vector3d(standEntity.getLookAngle().x()/2, 0.1, standEntity.getLookAngle().z()/2);
                     if (!world.isClientSide()) {
                         projectile.setDeltaMovement(stop);
                     }
