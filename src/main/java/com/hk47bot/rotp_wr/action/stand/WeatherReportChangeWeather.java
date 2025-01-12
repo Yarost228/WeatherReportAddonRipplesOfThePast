@@ -6,19 +6,12 @@ import com.github.standobyte.jojo.entity.stand.StandEntityTask;
 import com.github.standobyte.jojo.entity.stand.StandPose;
 import com.github.standobyte.jojo.power.impl.stand.IStandPower;
 
-import com.hk47bot.rotp_wr.RotpWeatherReportAddon;
 import com.hk47bot.rotp_wr.client.ui.weather.BetterWeatherChangeMenu;
 import com.hk47bot.rotp_wr.client.ui.weather.VanillaWeatherChangeMenu;
-import com.hk47bot.rotp_wr.network.AddonPackets;
-import com.hk47bot.rotp_wr.network.BetterWeatherMenuOpenPacket;
-import com.hk47bot.rotp_wr.network.WeatherMenuOpenPacket;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.ModList;
-import net.minecraftforge.fml.loading.LoadingModList;
 
 public class WeatherReportChangeWeather extends StandEntityAction {
     public static final StandPose WEATHER_CHANGE_POSE = new StandPose("WR_WEATHERCHANGE");
