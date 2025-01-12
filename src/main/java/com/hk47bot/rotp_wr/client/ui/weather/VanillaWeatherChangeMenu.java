@@ -37,7 +37,7 @@ public class VanillaWeatherChangeMenu extends Screen {
     public static void openWindowOnClick(LivingEntity user) {
         Minecraft mc = Minecraft.getInstance();
         if (mc.screen == null && user == mc.player) {
-            Screen screen = new BetterWeatherChangeMenu();
+            Screen screen = new VanillaWeatherChangeMenu();
             mc.setScreen(screen);
         }
     }
