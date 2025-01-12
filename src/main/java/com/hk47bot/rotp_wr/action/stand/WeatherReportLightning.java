@@ -7,6 +7,7 @@ import com.github.standobyte.jojo.entity.stand.StandEntity;
 import com.github.standobyte.jojo.entity.stand.StandEntityTask;
 import com.github.standobyte.jojo.power.impl.stand.IStandPower;
 
+import com.github.standobyte.jojo.util.mod.JojoModUtil;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.LightningBoltEntity;
@@ -22,13 +23,12 @@ public class WeatherReportLightning extends StandEntityAction {
     }
 
     @Override
-    public void onHoldTick(World world, LivingEntity user,IStandPower power, int ticksHeld, ActionTarget target, boolean requirementsFulfilled) {
-        super.holdTick(world, user, power, ticksHeld, target, requirementsFulfilled);
-        if (requirementsFulfilled && world.isClientSide()) {
+    public void onHoldTickClientEffect(LivingEntity user, IStandPower power, int ticksHeld, boolean reqFulfilled, boolean reqStateChanged) {
+        if (reqFulfilled) {
             StandEntity standEntity = (StandEntity) power.getStandManifestation();
-            RayTraceResult result = standEntity.precisionRayTrace(standEntity, 100);
+            RayTraceResult result = JojoModUtil.rayTrace(user, 100, entity -> entity != standEntity);
             Vector3d pos = result.getLocation();
-            world.addParticle(ParticleTypes.END_ROD, pos.x, pos.y(), pos.z(), 0, 0, 0);
+            user.level.addParticle(ParticleTypes.END_ROD, pos.x, pos.y(), pos.z(), 0, 0, 0);
         }
     }
 
@@ -36,7 +36,7 @@ public class WeatherReportLightning extends StandEntityAction {
     @Override
     public void standPerform(World world, StandEntity standEntity, IStandPower userPower, StandEntityTask task) {
         if (!world.isClientSide()) {
-            RayTraceResult result = standEntity.precisionRayTrace(standEntity, 100);
+            RayTraceResult result = JojoModUtil.rayTrace(userPower.getUser(), 100, entity -> entity != standEntity);
             Vector3d pos = result.getLocation();
             if (pos != null) {
                 int lightningCount;
