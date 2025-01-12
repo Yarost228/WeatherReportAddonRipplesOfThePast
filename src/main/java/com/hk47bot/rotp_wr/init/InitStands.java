@@ -118,7 +118,7 @@ public class InitStands {
                     .partsRequired(StandPart.MAIN_BODY)));
 
     public static final RegistryObject<StandEntityAction> WEATHER_REPORT_ICICLE_STRIKE = ACTIONS.register("weather_report_icicle_strike",
-            () -> new WeatherReportIcicleStrike(new StandEntityAction.Builder().staminaCost(375).standPerformDuration(30).cooldown(10, 100)
+            () -> new WeatherReportIcicleStrike(new StandEntityAction.Builder().staminaCost(375).standPerformDuration(20).cooldown(10, 100)
                     .resolveLevelToUnlock(2)
                     .standOffsetFront().standPose(StandPose.RANGED_ATTACK)
                     .standSound(InitSounds.WEATHER_REPORT_PUNCH_SWING).standOffsetFromUser(0.2, 0.5)

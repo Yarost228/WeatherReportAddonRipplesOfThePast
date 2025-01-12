@@ -74,7 +74,7 @@ public class IcicleExtendingProjectileEntity extends OwnerBoundProjectileEntity 
 
     @Override
     protected float movementSpeed() {
-        return 1F;
+        return 0.75F;
     }
 
     @Override
