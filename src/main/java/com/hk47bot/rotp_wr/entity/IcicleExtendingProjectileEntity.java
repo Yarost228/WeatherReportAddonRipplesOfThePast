@@ -35,7 +35,7 @@ public class IcicleExtendingProjectileEntity extends OwnerBoundProjectileEntity 
 
     @Override
     public float getBaseDamage() {
-        return 5.0F;
+        return 0.5F;
     }
 
     @Override
@@ -55,7 +55,13 @@ public class IcicleExtendingProjectileEntity extends OwnerBoundProjectileEntity 
         if (target instanceof LivingEntity){
             LivingEntity livingTarget = (LivingEntity) target;
             if (JojoModUtil.canBleed(livingTarget)){
-                livingTarget.addEffect(new EffectInstance(ModStatusEffects.BLEEDING.get(), 100, 2, false, false, true));
+                if (livingTarget.hasEffect(ModStatusEffects.BLEEDING.get())){
+                    int amplifier = livingTarget.getEffect(ModStatusEffects.BLEEDING.get()).getAmplifier()+1;
+                    livingTarget.addEffect(new EffectInstance(ModStatusEffects.BLEEDING.get(), 200, amplifier, false, false, true));
+                }
+                else {
+                    livingTarget.addEffect(new EffectInstance(ModStatusEffects.BLEEDING.get(), 200, 0, false, false, true));
+                }
             }
         }
         return super.hurtTarget(target, owner);
