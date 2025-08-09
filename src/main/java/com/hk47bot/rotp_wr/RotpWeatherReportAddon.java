@@ -1,8 +1,7 @@
 package com.hk47bot.rotp_wr;
 
-import com.hk47bot.rotp_wr.capability.PlayerWeatherChangeCapabilityProvider;
+import com.hk47bot.rotp_wr.init.*;
 import com.hk47bot.rotp_wr.network.AddonPackets;
-import com.hk47bot.rotp_wr.util.RegisterCapabilities;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
@@ -12,10 +11,6 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
-import com.hk47bot.rotp_wr.init.InitEntities;
-import com.hk47bot.rotp_wr.init.InitSounds;
-import com.hk47bot.rotp_wr.init.InitStands;
 
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
@@ -29,10 +24,13 @@ public class RotpWeatherReportAddon {
 
     public RotpWeatherReportAddon() {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
+        InitParticles.PARTICLES.register(modEventBus);
         InitEntities.ENTITIES.register(modEventBus);
         InitSounds.SOUNDS.register(modEventBus);
         InitStands.ACTIONS.register(modEventBus);
         InitStands.STANDS.register(modEventBus);
+        InitEffects.EFFECTS.register(modEventBus);
+        InitBlocks.BLOCKS.register(modEventBus);
     }
     public static Logger getLogger() {
         return LOGGER;

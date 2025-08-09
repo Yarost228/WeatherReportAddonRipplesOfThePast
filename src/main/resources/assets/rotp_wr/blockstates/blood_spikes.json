@@ -1,0 +1,64 @@
+{
+  "variants": {
+    "stage=0,facing=north": {
+      "model": "rotp_wr:block/blood_spikes_0"
+    },
+    "stage=1,facing=north": {
+      "model": "rotp_wr:block/blood_spikes_1"
+    },
+    "stage=2,facing=north": {
+      "model": "rotp_wr:block/blood_spikes_2"
+    },
+    "stage=3,facing=north": {
+      "model": "rotp_wr:block/blood_spikes_3"
+    },
+    "stage=0,facing=west": {
+      "model": "rotp_wr:block/blood_spikes_0",
+      "y": 270
+    },
+    "stage=1,facing=west": {
+      "model": "rotp_wr:block/blood_spikes_1",
+      "y": 270
+    },
+    "stage=2,facing=west": {
+      "model": "rotp_wr:block/blood_spikes_2",
+      "y": 270
+    },
+    "stage=3,facing=west": {
+      "model": "rotp_wr:block/blood_spikes_3",
+      "y": 270
+    },
+    "stage=0,facing=south": {
+      "model": "rotp_wr:block/blood_spikes_0",
+      "y": 180
+    },
+    "stage=1,facing=south": {
+      "model": "rotp_wr:block/blood_spikes_1",
+      "y": 180
+    },
+    "stage=2,facing=south": {
+      "model": "rotp_wr:block/blood_spikes_2",
+      "y": 180
+    },
+    "stage=3,facing=south": {
+      "model": "rotp_wr:block/blood_spikes_3",
+      "y": 180
+    },
+    "stage=0,facing=east": {
+      "model": "rotp_wr:block/blood_spikes_0",
+      "y": 90
+    },
+    "stage=1,facing=east": {
+      "model": "rotp_wr:block/blood_spikes_1",
+      "y": 90
+    },
+    "stage=2,facing=east": {
+      "model": "rotp_wr:block/blood_spikes_2",
+      "y": 90
+    },
+    "stage=3,facing=east": {
+      "model": "rotp_wr:block/blood_spikes_3",
+      "y": 90
+    }
+  }
+}

@@ -7,11 +7,11 @@ import com.github.standobyte.jojo.entity.stand.StandEntity;
 import com.github.standobyte.jojo.entity.stand.StandEntityTask;
 import com.github.standobyte.jojo.power.impl.stand.IStandPower;
 
-import com.github.standobyte.jojo.util.general.GeneralUtil;
+import com.github.standobyte.jojo.util.mod.JojoModUtil;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.LightningBoltEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.particles.ParticleTypes;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
@@ -22,31 +22,38 @@ public class WeatherReportLightning extends StandEntityAction {
         super(builder);
     }
 
+    @Override
+    public void onHoldTickClientEffect(LivingEntity user, IStandPower power, int ticksHeld, boolean reqFulfilled, boolean reqStateChanged) {
+        if (reqFulfilled) {
+            StandEntity standEntity = (StandEntity) power.getStandManifestation();
+            RayTraceResult result = JojoModUtil.rayTrace(user, 100, entity -> entity != standEntity);
+            Vector3d pos = result.getLocation();
+            user.level.addParticle(ParticleTypes.END_ROD, pos.x, pos.y(), pos.z(), 0, 0, 0);
+        }
+    }
+
 
     @Override
     public void standPerform(World world, StandEntity standEntity, IStandPower userPower, StandEntityTask task) {
         if (!world.isClientSide()) {
-            RayTraceResult target = standEntity.aimWithStandOrUser(100, task.getTarget());
-            Vector3d pos = target.getLocation();
+            RayTraceResult result = JojoModUtil.rayTrace(userPower.getUser(), 100, entity -> entity != standEntity);
+            Vector3d pos = result.getLocation();
             if (pos != null) {
-                int count;
-                if (world.isRaining()){
-                    if (world.isThundering()){
-                        count = 9;
-                    }
-                    else {
-                        count = 6;
-                    }
+                int lightningCount;
+                if (world.isThundering()){
+                    lightningCount = 8;
+                }
+                else if (!world.isRaining()){
+                    lightningCount = 0;
+
                 }
                 else {
-                    count = 3;
+                    lightningCount = 3;
                 }
-                GeneralUtil.doFractionTimes(() -> {
-                    LightningBoltEntity bolt = EntityType.LIGHTNING_BOLT.create(world);
-                    bolt.moveTo(pos);
-                    bolt.setCause((ServerPlayerEntity) userPower.getUser());
-                    world.addFreshEntity(bolt);
-                }, count);
+                LightningBoltEntity bolt = EntityType.LIGHTNING_BOLT.create(world);
+                bolt.moveTo(pos);
+                bolt.setDamage(7 + lightningCount);
+                world.addFreshEntity(bolt);
             }
         }
     }

@@ -4,10 +4,10 @@ import com.github.standobyte.jojo.action.stand.StandEntityAction;
 import com.github.standobyte.jojo.entity.stand.StandEntity;
 import com.github.standobyte.jojo.entity.stand.StandEntityTask;
 import com.github.standobyte.jojo.entity.stand.StandPose;
-import com.github.standobyte.jojo.init.ModParticles;
 import com.github.standobyte.jojo.power.impl.stand.IStandPower;
 import com.github.standobyte.jojo.util.general.GeneralUtil;
 
+import com.hk47bot.rotp_wr.init.InitParticles;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
@@ -34,11 +34,9 @@ public class WeatherReportWind extends StandEntityAction {
                         entity.setDeltaMovement(distance > 2 ?
                                 entity.getDeltaMovement().add(pushVec.scale(1/distance*2))
                                 : pushVec.scale(Math.max(distance - 1, 0)));
-
                     }
                 });
         if (world.isClientSide()) {
-
             GeneralUtil.doFractionTimes(() -> {
                 Vector3d userPos = standEntity.position().add(
                         (Math.random() - 0.5) * (user.getBbWidth() + 1.0),
@@ -48,20 +46,10 @@ public class WeatherReportWind extends StandEntityAction {
                         .xRot((float) (-(Math.random() * 2 - 1) * Math.PI / 6))
                         .yRot((float) (-(Math.random() * 2 - 1) * Math.PI / 6)));
                 Vector3d vecToStand = userPos.subtract(particlePos).normalize().scale(0.75);
-                world.addParticle(ModParticles.AIR_STREAM.get(), particlePos.x, particlePos.y, particlePos.z, -vecToStand.x,  -vecToStand.y, -vecToStand.z);
+                world.addParticle(InitParticles.REVERSE_AIR_STREAM.get(), particlePos.x, particlePos.y, particlePos.z, vecToStand.x,  vecToStand.y, vecToStand.z);
             }, 5);
         }
     }
-
-
-
-
-
-
-
-
-
-
 
     @Override
     public int getCooldownAdditional(IStandPower power, int ticksHeld) {

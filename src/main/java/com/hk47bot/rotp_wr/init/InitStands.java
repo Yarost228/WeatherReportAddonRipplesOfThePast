@@ -66,22 +66,24 @@ public class InitStands {
 
         public static final RegistryObject<StandEntityAction> WEATHER_REPORT_WIND = ACTIONS.register("weather_report_wind", 
             () -> new WeatherReportWind(new StandEntityAction.Builder()
-                    .holdType(80)
+                    .holdType(120)
                     .staminaCostTick(2F)
-                    .cooldown(120)
+                    .cooldown(80)
                     .standPose(WeatherReportWind.WIND_BLOW)
-                    .standOffsetFromUser(0, 1.5).standSound(InitSounds.WEATHER_REPORT_WIND)
+                    .standOffsetFront()
+                    .standSound(InitSounds.WEATHER_REPORT_WIND)
                     .partsRequired(StandPart.ARMS)));
 
         public static final RegistryObject<StandEntityAction> WEATHER_REPORT_COLD_WIND = ACTIONS.register("weather_report_cold_wind", 
             () -> new WeatherReportColdWind(new StandEntityAction.Builder()
                     .holdType(80)
                     .staminaCostTick(3F)
-                    .cooldown(160)
+                    .cooldown(120)
                     .shiftVariationOf(WEATHER_REPORT_WIND)
                     .resolveLevelToUnlock(1)
                     .standPose(WeatherReportWind.WIND_BLOW)
-                    .standOffsetFromUser(0, 1).standSound(InitSounds.WEATHER_REPORT_COLD_WIND)
+                    .standOffsetFront()
+                    .standSound(InitSounds.WEATHER_REPORT_COLD_WIND)
                     .partsRequired(StandPart.MAIN_BODY)));
 
 
@@ -98,7 +100,7 @@ public class InitStands {
 
         public static final RegistryObject<WeatherReportChangeWeather> WEATHER_REPORT_CHANGE_WEATHER = ACTIONS.register("weather_report_change_weather", 
             () -> new WeatherReportChangeWeather(new StandEntityAction.Builder()
-                    .cooldown(240)
+                    .cooldown(1200)
                     .staminaCostTick(75F)
                     .standSound(StandEntityAction.Phase.BUTTON_HOLD, InitSounds.WEATHER_REPORT_CHANGE_WEATHER)
                     .holdToFire(30, false)
@@ -114,16 +116,24 @@ public class InitStands {
                     .resolveLevelToUnlock(3)
                     .standPose(WeatherReportChangeWeather.WEATHER_CHANGE_POSE)
                     .partsRequired(StandPart.MAIN_BODY)));
+
+    public static final RegistryObject<StandEntityAction> WEATHER_REPORT_ICICLE_STRIKE = ACTIONS.register("weather_report_icicle_strike",
+            () -> new WeatherReportIcicleStrike(new StandEntityAction.Builder().staminaCost(375).standPerformDuration(20).cooldown(10, 100)
+                    .resolveLevelToUnlock(2)
+                    .standOffsetFront().standPose(StandPose.RANGED_ATTACK)
+                    .standSound(InitSounds.WEATHER_REPORT_PUNCH_SWING).standOffsetFromUser(0.2, 0.5)
+                    .partsRequired(StandPart.ARMS)));
     
     public static final RegistryObject<StandEntityAction> WEATHER_REPORT_BLOCK = ACTIONS.register("weather_report_block",
             StandEntityBlock::new);
 
-    public static final RegistryObject<StandAction> WEATHER_REPORT_WEATHER_MENU = ACTIONS.register("weather_report_weather_menu",
-            () -> new WeatherReportWeatherTypeMenu(new StandAction.Builder()));
+    public static final RegistryObject<StandAction> WEATHER_REPORT_GIVE_CLOUD_SHIELD = ACTIONS.register("weather_report_give_cloud_shield",
+            () -> new WeatherReportGiveCloudShield(new StandAction.Builder()
+                    .staminaCost(400)
+                    .cooldown(1300)
+                    .shout(InitSounds.WEATHER_REPORT)
+                    .shiftVariationOf(InitStands.WEATHER_REPORT_CLOUD_SHIELD)));
 
-
-
-    
     
     public static final EntityStandRegistryObject<EntityStandType<StandStats>, StandEntityType<WeatherReportEntity>> STAND_WEATHER_REPORT = 
             new EntityStandRegistryObject<>("weather_report", 
@@ -135,13 +145,13 @@ public class InitStands {
                                     WEATHER_REPORT_PUNCH.get(),
                                     WEATHER_REPORT_BARRAGE.get(),
                                     WEATHER_REPORT_LIGHTNING.get(),
+                                    WEATHER_REPORT_ICICLE_STRIKE.get()
                                     },
                             new StandAction[] {
                                     WEATHER_REPORT_BLOCK.get(),
                                     WEATHER_REPORT_CLOUD_SHIELD.get(),
                                     WEATHER_REPORT_WIND.get(),
-                                    WEATHER_REPORT_CHANGE_WEATHER.get(),
-                                    WEATHER_REPORT_WEATHER_MENU.get()
+                                    WEATHER_REPORT_CHANGE_WEATHER.get()
                                     },
 
                             StandStats.class, new StandStats.Builder()
@@ -150,7 +160,7 @@ public class InitStands {
                             .speed(12.0)
                             .range(2.0, 10.0)
                             .durability(16.0)
-                            .precision(2.0)
+                            .precision(4.0)
                             .build("Weather Report"),
 
                             new StandType.StandTypeOptionals()
@@ -158,7 +168,7 @@ public class InitStands {
                             .addOst(InitSounds.WEATHER_REPORT_OST)),
 
                     InitEntities.ENTITIES, 
-                    () -> new StandEntityType<>(WeatherReportEntity::new, 0.7F, 2.1F)
+                    () -> new StandEntityType<>(WeatherReportEntity::new, 0.65F, 1.95F)
                     .summonSound(InitSounds.WEATHER_REPORT_SUMMON)
                     .unsummonSound(InitSounds.WEATHER_REPORT_UNSUMMON))
             .withDefaultStandAttributes();
